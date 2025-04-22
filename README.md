@@ -10,7 +10,7 @@ Self-Paced Career Development Toolkit（マイペースキャリア開発ツー�
 
 このリポジトリには、以下の4つのツールが含まれています：
 
-### 1. [価値観可視化診断ツール (Values Visualization Assessment Tool)](https://yourworklifedesign.blogspot.com/2025/04/blog-post_97.html)
+### 1. [価値観可視化診断ツール (values-assessment-tool.html)](https://yourworklifedesign.blogspot.com/2025/04/blog-post_97.html)
 
 **機能：**
 - 38の質問を通じて、5つの分野、14の対比軸から個人の価値観傾向を診断
@@ -21,7 +21,7 @@ Self-Paced Career Development Toolkit（マイペースキャリア開発ツー�
 - 各質問に対して5段階評価で回答
 - 全質問回答後、価値観傾向のビジュアル表示を確認
 
-### 2. [専門的強み診断ツール (Professional Strengths Assessment Tool)](https://yourworklifedesign.blogspot.com/2025/04/15.html)
+### 2. [専門的強み診断ツール (strength-assessment-tool.html)](https://yourworklifedesign.blogspot.com/2025/04/15.html)
 
 **機能：**
 - 40の質問で知識、スキル、資質の3つの要素から専門的強みを診断
@@ -32,7 +32,7 @@ Self-Paced Career Development Toolkit（マイペースキャリア開発ツー�
 - 各質問に対して5段階評価で回答
 - 全質問回答後、強みの分析結果とレーダーチャートを表示
 
-### 3. [SMART目標設定ツール (SMART Goal Setting Tool)](https://yourworklifedesign.blogspot.com/2025/04/smart_17.html)
+### 3. [SMART目標設定ツール (smart-goal-tool-multi.html)](https://yourworklifedesign.blogspot.com/2025/04/smart_17.html)
 
 **機能：**
 - SMART（Specific, Measurable, Achievable, Relevant, Time-bound）原則に基づく目標設定
@@ -44,7 +44,7 @@ Self-Paced Career Development Toolkit（マイペースキャリア開発ツー�
 - 設定した目標をローカルに保存
 - 保存した目標の確認、編集、削除
 
-### 4. [ゴール分解・計画ツール (Goal Breakdown and Planning Tool)](https://yourworklifedesign.blogspot.com/2025/04/blog-post_64.html)
+### 4. [ゴール分解・計画ツール (goal-planning-tool.html)](https://yourworklifedesign.blogspot.com/2025/04/blog-post_64.html)
 
 **機能：**
 - 最終ゴールを設定し、バックキャスティングで中間目標を設定

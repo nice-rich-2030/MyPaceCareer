@@ -1,0 +1,913 @@
+<!--
+Copyright (c) 2025 Daily Growth
+https://yourworklifedesign.blogspot.com/
+All rights reserved.
+-->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>価値観可視化診断ツール</title>
+    <style>
+        :root {
+            --primary-color: #4a86e8;
+            --secondary-color: #f5b942;
+            --background-color: #f9f9f9;
+            --text-color: #333;
+            --light-gray: #e0e0e0;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --category1-color: #4a86e8;
+            --category2-color: #f5b942;
+            --category3-color: #5cb85c;
+            --category4-color: #d9534f;
+            --category5-color: #9966cc;
+        }
+        
+        .info-btn {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-left: 10px;
+            transition: background-color 0.3s;
+        }
+        
+        .info-btn:hover {
+            background-color: #e0a930;
+        }
+        
+        .info-panel {
+            background-color: #f8f8f8;
+            border: 1px solid var(--light-gray);
+            border-radius: var(--border-radius);
+            padding: 15px;
+            margin: 10px 0 20px 0;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .info-panel h4 {
+            margin-top: 10px;
+            margin-bottom: 5px;
+            color: var(--primary-color);
+        }
+        
+        .info-panel ul, .info-panel ol {
+            padding-left: 20px;
+            margin: 5px 0 15px 0;
+        }
+        
+        body {
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+        
+        h1, h2, h3 {
+            color: var(--primary-color);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+        
+        .intro {
+            margin-bottom: 30px;
+            background-color: rgba(74, 134, 232, 0.1);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        #test-container, #results-container {
+            margin-top: 20px;
+        }
+        
+        #results-container {
+            display: none;
+        }
+        
+        .question-card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+        
+        .question-text {
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .category-label {
+            display: inline-block;
+            padding: 3px 8px;
+            font-size: 12px;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+        
+        .category1 {
+            background-color: rgba(74, 134, 232, 0.2);
+        }
+        
+        .category2 {
+            background-color: rgba(245, 185, 66, 0.2);
+        }
+        
+        .category3 {
+            background-color: rgba(92, 184, 92, 0.2);
+        }
+        
+        .category4 {
+            background-color: rgba(217, 83, 79, 0.2);
+        }
+        
+        .category5 {
+            background-color: rgba(153, 102, 204, 0.2);
+        }
+        
+        .options {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        
+        .options label {
+            text-align: center;
+            flex: 1;
+            padding: 8px 0;
+            cursor: pointer;
+            border: 1px solid var(--light-gray);
+            margin: 0 2px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        .options label:hover {
+            background-color: rgba(74, 134, 232, 0.1);
+        }
+        
+        .options input[type="radio"] {
+            display: none;
+        }
+        
+        .options input[type="radio"]:checked + label {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        .option-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #777;
+            margin-top: 5px;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #3a76d8;
+        }
+        
+        button:disabled {
+            background-color: var(--light-gray);
+            cursor: not-allowed;
+        }
+        
+        .progress-container {
+            height: 10px;
+            background-color: var(--light-gray);
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background-color: var(--primary-color);
+            width: 0%;
+            transition: width 0.3s;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .category-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+        
+        .category-section h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: white;
+            padding: 10px;
+            border-radius: var(--border-radius);
+        }
+        
+        .category1-section {
+            border-left: 5px solid var(--category1-color);
+        }
+        
+        .category1-section h3 {
+            background-color: var(--category1-color);
+        }
+        
+        .category2-section {
+            border-left: 5px solid var(--category2-color);
+        }
+        
+        .category2-section h3 {
+            background-color: var(--category2-color);
+        }
+        
+        .category3-section {
+            border-left: 5px solid var(--category3-color);
+        }
+        
+        .category3-section h3 {
+            background-color: var(--category3-color);
+        }
+        
+        .category4-section {
+            border-left: 5px solid var(--category4-color);
+        }
+        
+        .category4-section h3 {
+            background-color: var(--category4-color);
+        }
+        
+        .category5-section {
+            border-left: 5px solid var(--category5-color);
+        }
+        
+        .category5-section h3 {
+            background-color: var(--category5-color);
+        }
+        
+        .axis-container {
+            margin-bottom: 20px;
+        }
+        
+        .axis-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .axis-slider-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .axis-label {
+            flex: 1;
+            font-size: 14px;
+        }
+        
+        .axis-slider {
+            flex: 3;
+            height: 25px;
+            position: relative;
+            background-color: #e0e0e0;
+            border-radius: 15px;
+            margin: 0 10px;
+        }
+        
+        .axis-indicator {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            top: 2.5px;
+            transform: translateX(-50%);
+            transition: left 0.3s;
+        }
+        
+        .axis-value {
+            flex: 1;
+            text-align: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        .axis-description {
+            font-size: 14px;
+            margin-bottom: 20px;
+            background-color: #f8f8f8;
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 3px solid #ccc;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .options {
+                flex-direction: column;
+            }
+            
+            .options label {
+                margin: 2px 0;
+            }
+            
+            .axis-slider-container {
+                flex-direction: column;
+            }
+            
+            .axis-label, .axis-value {
+                text-align: center;
+                margin: 5px 0;
+            }
+            
+            .axis-slider {
+                width: 100%;
+                margin: 10px 0;
+            }
+        }
+		/* 活用法セクションのスタイル */
+		.utilization-section {
+		    margin: 40px 0 20px 0;
+		    padding: 20px;
+		    background-color: #f9f9f9;
+		    border-radius: var(--border-radius);
+		    box-shadow: var(--box-shadow);
+		}
+
+		.utilization-section h3 {
+		    color: var(--primary-color);
+		    margin-top: 0;
+		    padding-bottom: 10px;
+		    border-bottom: 1px solid #e0e0e0;
+		}
+
+		.utilization-cards {
+		    display: grid;
+		    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+		    gap: 20px;
+		    margin-top: 20px;
+		}
+
+		.utilization-card {
+		    background-color: white;
+		    padding: 15px;
+		    border-radius: var(--border-radius);
+		    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+		    border-left: 3px solid var(--primary-color);
+		    transition: transform 0.3s;
+		}
+
+		.utilization-card:hover {
+		    transform: translateY(-5px);
+		}
+
+		.utilization-card h4 {
+		    color: var(--primary-color);
+		    margin-top: 0;
+		    margin-bottom: 10px;
+		}
+
+		.utilization-card p {
+		    font-size: 14px;
+		    line-height: 1.5;
+		    margin: 0;
+		}
+
+		/* モバイル対応 */
+		@media (max-width: 600px) {
+		    .utilization-cards {
+		        grid-template-columns: 1fr;
+		    }
+		    
+		    .utilization-card {
+		        margin-bottom: 15px;
+		    }
+		}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>価値観可視化診断ツール</h1>
+        
+        <div class="intro">
+		     <p>このツールは、あなたの考え方や生き方の傾向を5つの分野、14の対比から診断します。各質問に対して、あなたにどの程度当てはまるかを5段階で評価してください。</p>
+		     <p>全38問の質問に回答すると、あなたの価値観の傾向を見える形で表示します。あなたがどんな考え方を大切にしているかが分かります。</p>
+        </div>
+        
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        
+        <div id="test-container">
+            <!-- 質問がJSで動的に挿入されます -->
+        </div>
+        
+        <div class="navigation">
+            <button id="prev-btn" disabled>前へ</button>
+            <button id="next-btn">次へ</button>
+        </div>
+        
+        <div id="results-container" class="hidden">
+            <h2>診断結果: あなたの価値観プロファイル</h2>
+			            
+			<div id="category1-results" class="category-section category1-section">
+			    <h3>自分と周りの人との関係</h3>
+			    <!-- 対立軸スライダーがJSで動的に挿入されます -->
+			</div>
+
+			<div id="category2-results" class="category-section category2-section">
+			    <h3>変化への対応</h3>
+			    <!-- 対立軸スライダーがJSで動的に挿入されます -->
+			</div>
+
+			<div id="category3-results" class="category-section category3-section">
+			    <h3>人との接し方</h3>
+			    <!-- 対立軸スライダーがJSで動的に挿入されます -->
+			</div>
+
+			<div id="category4-results" class="category-section category4-section">
+			    <h3>幸せや成功の考え方</h3>
+			    <!-- 対立軸スライダーがJSで動的に挿入されます -->
+			</div>
+
+			<div id="category5-results" class="category-section category5-section">
+			    <h3>考え方の傾向</h3>
+			    <!-- 対立軸スライダーがJSで動的に挿入されます -->
+			</div>
+            
+            <button id="restart-btn">もう一度診断する</button>
+        </div>
+    </div>
+
+    <script>
+        // 質問データ
+		const questions = [
+		    // カテゴリー1: 自分と周りの人との関係
+		    { id: "1-1", category: "自分と周りの人との関係", text: "グループで決めたことと自分の考えが違うとき、あなたは自分の考えを通すことが多い。", axis: "自分の考えを貫くか vs みんなと合わせるか" },
+		    { id: "1-2", category: "自分と周りの人との関係", text: "周りの人と意見が違っても、自分の考えをはっきり言う方だ。", axis: "自分の考えを貫くか vs みんなと合わせるか" },
+		    { id: "1-3", category: "自分と周りの人との関係", text: "自分のやりたいことを優先して、家族や友達と過ごす時間が減ることがよくある。", axis: "自分の目標を追求するか vs 家族や仲間を優先するか" },
+		    { id: "1-4", category: "自分と周りの人との関係", text: "仕事の転機では、家族の事情より自分の成長できる環境を選ぶことが多い。", axis: "自分の目標を追求するか vs 家族や仲間を優先するか" },
+		    { id: "1-5", category: "自分と周りの人との関係", text: "チームでは、上下関係や役割分担がはっきりしている方が動きやすいと思う。", axis: "リーダーと部下の区別が明確な方がいいか vs みんな対等な方がいいか" },
+		    { id: "1-6", category: "自分と周りの人との関係", text: "リーダーには、一般メンバーより多くの特権があるべきだと思う。", axis: "リーダーと部下の区別が明確な方がいいか vs みんな対等な方がいいか" },
+		    { id: "1-7", category: "自分と周りの人との関係", text: "話し合いでは、役職に関係なく、全員が同じ発言権を持つべきだ。", axis: "リーダーと部下の区別が明確な方がいいか vs みんな対等な方がいいか", reverse: true },
+		    { id: "1-8", category: "自分と周りの人との関係", text: "家族のルールは、一人ひとりの事情に合わせて変えられるべきだと思う。", axis: "自分の考えを貫くか vs みんなと合わせるか" },
+		    // カテゴリー2: 変化への対応
+		    { id: "2-1", category: "変化への対応", text: "昔からのやり方は、新しいやり方より安心できることが多い。", axis: "昔からのやり方を大切にするか vs 新しいやり方を取り入れるか" },
+		    { id: "2-2", category: "変化への対応", text: "便利になるなら、これまでのやり方を変えることに抵抗はない。", axis: "昔からのやり方を大切にするか vs 新しいやり方を取り入れるか", reverse: true },
+		    { id: "2-3", category: "変化への対応", text: "昔からの習慣や行事は、今の時代に合わせて変えていくべきだ。", axis: "昔からのやり方を大切にするか vs 新しいやり方を取り入れるか", reverse: true },
+		    { id: "2-4", category: "変化への対応", text: "仕事や投資では、安定よりも可能性が大きい冒険的な選択に魅力を感じる。", axis: "安定した状況を好むか vs 新しい挑戦を好むか", reverse: true },
+		    { id: "2-5", category: "変化への対応", text: "先が見えない状況は、できるだけ避けたいと思う。", axis: "安定した状況を好むか vs 新しい挑戦を好むか" },
+		    { id: "2-6", category: "変化への対応", text: "新しい環境に慣れるより、慣れた環境にいる方が好きだ。", axis: "安定した状況を好むか vs 新しい挑戦を好むか" },
+		    
+		    // カテゴリー3: 人との接し方
+		    { id: "3-1", category: "人との接し方", text: "ルールは誰に対しても同じように適用すべきで、例外を作るべきではない。", axis: "ルールはみんな平等に守るべきか vs 状況によって例外も認めるべきか" },
+		    { id: "3-2", category: "人との接し方", text: "その人の事情に応じて、ルールを柔軟に変えることもあっていい。", axis: "ルールはみんな平等に守るべきか vs 状況によって例外も認めるべきか", reverse: true },
+		    { id: "3-3", category: "人との接し方", text: "困っている人には、特別な配慮をするべきだ。", axis: "ルールはみんな平等に守るべきか vs 状況によって例外も認めるべきか", reverse: true },
+		    { id: "3-4", category: "人との接し方", text: "良い結果を得るためなら、全てを正直に言わないこともあり得る。", axis: "本当のことを言うか vs 相手の気持ちを優先するか", reverse: true },
+		    { id: "3-5", category: "人との接し方", text: "相手を傷つけないためなら、嘘をつくこともありだと思う。", axis: "本当のことを言うか vs 相手の気持ちを優先するか", reverse: true },
+		    { id: "3-6", category: "人との接し方", text: "人を助けることより、自分の目標を達成することを優先することが多い。", axis: "人の役に立つことを優先するか vs 自分の利益を優先するか", reverse: true },
+		    { id: "3-7", category: "人との接し方", text: "仕事では、人の気持ちより結果を重視する方だ。", axis: "人の役に立つことを優先するか vs 自分の利益を優先するか", reverse: true },
+		    { id: "3-8", category: "人との接し方", text: "人間関係では、正しいことより、良い関係を保つことを大切にする。", axis: "本当のことを言うか vs 相手の気持ちを優先するか", reverse: true },
+		    
+		    // カテゴリー4: 幸せや成功の考え方
+		    { id: "4-1", category: "幸せや成功の考え方", text: "常に新しい目標を持ち、達成に向けて頑張ることが充実感につながる。", axis: "常に上を目指すか vs 今の生活に満足するか" },
+		    { id: "4-2", category: "幸せや成功の考え方", text: "今の生活に満足し楽しむことは、常に上を目指すことより大切だ。", axis: "常に上を目指すか vs 今の生活に満足するか", reverse: true },
+		    { id: "4-3", category: "幸せや成功の考え方", text: "成功したと言えるには、目に見える成果や実績が必要だと思う。", axis: "常に上を目指すか vs 今の生活に満足するか" },
+		    { id: "4-4", category: "幸せや成功の考え方", text: "お金や物よりも、意味のある経験や人間関係を大切にしている。", axis: "お金や物の豊かさを重視するか vs 心の豊かさを重視するか", reverse: true },
+		    { id: "4-5", category: "幸せや成功の考え方", text: "生活の質を上げるには、収入を増やすことが重要だ。", axis: "お金や物の豊かさを重視するか vs 心の豊かさを重視するか" },
+		    { id: "4-6", category: "幸せや成功の考え方", text: "シンプルな暮らしより、便利な道具や快適な環境を持つことを大切にする。", axis: "お金や物の豊かさを重視するか vs 心の豊かさを重視するか" },
+		    { id: "4-7", category: "幸せや成功の考え方", text: "周りと協調するより、自分の能力を発揮して目立つことを大切にする。", axis: "周りと競い合って目立つか vs 周りと調和して過ごすか" },
+		    { id: "4-8", category: "幸せや成功の考え方", text: "自分の成績や能力を他の人と比べることが多い。", axis: "周りと競い合って目立つか vs 周りと調和して過ごすか" },
+		    
+		    // カテゴリー5: 考え方の傾向
+		    { id: "5-1", category: "考え方の傾向", text: "大事な決断をするとき、感情より論理的に考えて判断することが多い。", axis: "データや分析で判断するか vs 直感や感情で判断するか" },
+		    { id: "5-2", category: "考え方の傾向", text: "難しい問題に直面したとき、直感や感情を信じることが多い。", axis: "データや分析で判断するか vs 直感や感情で判断するか", reverse: true },
+		    { id: "5-3", category: "考え方の傾向", text: "数字やデータより、実際の体験談や感情的な訴えに説得力を感じる。", axis: "データや分析で判断するか vs 直感や感情で判断するか", reverse: true },
+		    { id: "5-4", category: "考え方の傾向", text: "人生の意味を考えるとき、科学的な説明より精神的・宗教的な考え方を重視する。", axis: "科学的な説明を信じるか vs 精神的な説明を信じるか", reverse: true },
+		    { id: "5-5", category: "考え方の傾向", text: "社会問題の解決には、科学的なアプローチが一番効果的だと思う。", axis: "科学的な説明を信じるか vs 精神的な説明を信じるか" },
+		    { id: "5-6", category: "考え方の傾向", text: "経済発展のためなら、環境への多少の影響は仕方ないと思う。", axis: "人間の便利さを優先するか vs 自然環境を優先するか" },
+		    { id: "5-7", category: "考え方の傾向", text: "人間の便利さより、自然環境を守ることを優先すべきだ。", axis: "人間の便利さを優先するか vs 自然環境を優先するか", reverse: true },
+		    { id: "5-8", category: "考え方の傾向", text: "技術の進歩が環境に与える影響は、あまり心配する必要はないと思う。", axis: "人間の便利さを優先するか vs 自然環境を優先するか" }
+		];
+
+		// 対立軸の説明
+		const axisDescriptions = {
+		    "自分の考えを貫くか vs みんなと合わせるか": "自分の意見や判断を大切にするか、周りの人との調和を大切にするかの傾向を表します。",
+		    "自分の目標を追求するか vs 家族や仲間を優先するか": "自分の成長や目標達成を優先するか、家族や所属するグループとの関係を優先するかの傾向を表します。",
+		    "リーダーと部下の区別が明確な方がいいか vs みんな対等な方がいいか": "明確な役割分担や階層を重視するか、平等で水平的な関係を重視するかの傾向を表します。",
+		    "昔からのやり方を大切にするか vs 新しいやり方を取り入れるか": "伝統的な方法や価値観を尊重するか、革新や変化を受け入れるかの傾向を表します。",
+		    "安定した状況を好むか vs 新しい挑戦を好むか": "安全で予測可能な環境を好むか、リスクを取って新しいことに挑戦するのを好むかの傾向を表します。",
+		    "ルールはみんな平等に守るべきか vs 状況によって例外も認めるべきか": "ルールの一貫した適用を重視するか、個別の状況に応じた柔軟な対応を重視するかの傾向を表します。",
+		    "本当のことを言うか vs 相手の気持ちを優先するか": "事実や真実を伝えることを優先するか、人間関係や相手の感情を優先するかの傾向を表します。",
+		    "人の役に立つことを優先するか vs 自分の利益を優先するか": "他者への貢献や思いやりを優先するか、自分の成功や効率を優先するかの傾向を表します。",
+		    "常に上を目指すか vs 今の生活に満足するか": "常に成長や成功を追求するか、現状に満足して楽しむかの傾向を表します。",
+		    "お金や物の豊かさを重視するか vs 心の豊かさを重視するか": "物質的な豊かさや快適さを重視するか、精神的な充実や意味を重視するかの傾向を表します。",
+		    "周りと競い合って目立つか vs 周りと調和して過ごすか": "個人の実績や卓越性を追求するか、周囲との協調や調和を大切にするかの傾向を表します。",
+		    "データや分析で判断するか vs 直感や感情で判断するか": "論理的思考や客観的データに基づく判断を重視するか、直感や感情に基づく判断を重視するかの傾向を表します。",
+		    "科学的な説明を信じるか vs 精神的な説明を信じるか": "合理的・科学的な説明を重視するか、精神的・宗教的な意味づけを重視するかの傾向を表します。",
+		    "人間の便利さを優先するか vs 自然環境を優先するか": "人間の発展や便利さを優先するか、環境保全や自然との共存を優先するかの傾向を表します。"
+		};
+
+		// 対立軸の両極の説明
+		const polarDescriptions = {
+		    "自分の考えを貫く": "自分の判断や選択を重視する",
+		    "みんなと合わせる": "集団の和や周りとの調和を大切にする",
+		    "自分の目標を追求する": "自分の成長や目標達成を優先する",
+		    "家族や仲間を優先する": "家族や友人との絆や時間を大切にする",
+		    "リーダーと部下の区別が明確な方がいい": "役割分担や指揮系統を重視する",
+		    "みんな対等な方がいい": "平等な関係性と意見交換を重視する",
+		    "昔からのやり方を大切にする": "伝統的な方法や習慣を尊重する",
+		    "新しいやり方を取り入れる": "変化や革新を積極的に受け入れる",
+		    "安定した状況を好む": "変化の少ない予測可能な環境を好む",
+		    "新しい挑戦を好む": "未知の経験やリスクを厭わない",
+		    "ルールはみんな平等に守るべき": "公平さと一貫性を重視する",
+		    "状況によって例外も認めるべき": "個々の事情に応じた対応を重視する",
+		    "本当のことを言う": "事実や真実を伝えることを優先する",
+		    "相手の気持ちを優先する": "人間関係や相手の感情を大切にする",
+		    "人の役に立つことを優先する": "他者への配慮や貢献を大切にする",
+		    "自分の利益を優先する": "効率や実用的な結果を重視する",
+		    "常に上を目指す": "常に成長や向上を追求する",
+		    "今の生活に満足する": "現状を受け入れて楽しむ",
+		    "お金や物の豊かさを重視する": "物質的な快適さや豊かさを大切にする",
+		    "心の豊かさを重視する": "精神的な充実やシンプルな暮らしを大切にする",
+		    "周りと競い合って目立つ": "自分の能力や成果をアピールする",
+		    "周りと調和して過ごす": "協調性や人間関係の和を大切にする",
+		    "データや分析で判断する": "論理的・客観的な分析を重視する",
+		    "直感や感情で判断する": "感覚や心の声を信頼する",
+		    "科学的な説明を信じる": "合理的・科学的な根拠を重視する",
+		    "精神的な説明を信じる": "精神性や内面的な意味を大切にする",
+		    "人間の便利さを優先する": "人間の発展や快適さを重視する",
+		    "自然環境を優先する": "環境保全や生態系との調和を重視する"
+		};        
+
+        // 現在の質問インデックス
+        let currentQuestionIndex = 0;
+        // 回答を保存する配列
+        const answers = {};
+        
+        // DOMが読み込まれたら実行
+        // 質問をシャッフルする関数
+        function shuffleQuestions() {
+            // 現在の時刻をシードとして使用
+            let seed = new Date().getTime();
+            const rng = function() {
+                const x = Math.sin(seed++) * 10000;
+                return x - Math.floor(x);
+            };
+            
+            // Fisher-Yates シャッフルアルゴリズム
+            let currentIndex = questions.length;
+            let temporaryValue, randomIndex;
+            
+            while (currentIndex !== 0) {
+                randomIndex = Math.floor(rng() * currentIndex);
+                currentIndex -= 1;
+                
+                temporaryValue = questions[currentIndex];
+                questions[currentIndex] = questions[randomIndex];
+                questions[randomIndex] = temporaryValue;
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // 質問をシャッフル
+            shuffleQuestions();
+            
+            // 最初の質問を表示
+            showQuestion(currentQuestionIndex);
+            
+            // ボタンのイベントリスナーを設定
+            document.getElementById('prev-btn').addEventListener('click', showPreviousQuestion);
+            document.getElementById('next-btn').addEventListener('click', showNextQuestion);
+            document.getElementById('restart-btn').addEventListener('click', restartTest);
+        });
+        
+        // 質問を表示する関数
+        function showQuestion(index) {
+            const questionContainer = document.getElementById('test-container');
+            const question = questions[index];
+            
+            // 質問カードのHTML
+            const questionHTML = `
+                <div class="question-card" id="question-${question.id}">
+                    <div class="question-header">
+                        <span class="question-number">質問 ${index + 1}/${questions.length}</span>
+                    </div>
+                    <div class="question-text">${question.text}</div>
+                    <div class="options">
+                        <input type="radio" name="q${index}" id="q${index}-1" value="1" ${answers[question.id] === 1 ? 'checked' : ''}>
+                        <label for="q${index}-1">1</label>
+                        <input type="radio" name="q${index}" id="q${index}-2" value="2" ${answers[question.id] === 2 ? 'checked' : ''}>
+                        <label for="q${index}-2">2</label>
+                        <input type="radio" name="q${index}" id="q${index}-3" value="3" ${answers[question.id] === 3 ? 'checked' : ''}>
+                        <label for="q${index}-3">3</label>
+                        <input type="radio" name="q${index}" id="q${index}-4" value="4" ${answers[question.id] === 4 ? 'checked' : ''}>
+                        <label for="q${index}-4">4</label>
+                        <input type="radio" name="q${index}" id="q${index}-5" value="5" ${answers[question.id] === 5 ? 'checked' : ''}>
+                        <label for="q${index}-5">5</label>
+                    </div>
+                    <div class="option-labels">
+                        <span>全く当てはまらない</span>
+                        <span>非常に当てはまる</span>
+                    </div>
+                </div>
+            `;
+            
+            questionContainer.innerHTML = questionHTML;
+            
+            // ラジオボタンのイベントリスナーを設定
+            const radioButtons = document.querySelectorAll(`input[name="q${index}"]`);
+            radioButtons.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    answers[question.id] = parseInt(this.value);
+                });
+            });
+            
+            // ボタンの有効/無効状態を更新
+            updateButtonStates();
+            
+            // プログレスバーを更新
+            updateProgressBar();
+        }
+        
+        // 次の質問を表示
+        function showNextQuestion() {
+            const currentQuestion = questions[currentQuestionIndex];
+            
+            // 現在の質問に回答があるか確認
+            if (answers[currentQuestion.id] === undefined) {
+                alert('質問に回答してください');
+                return;
+            }
+            
+            // 最後の質問の場合は結果を表示
+            if (currentQuestionIndex === questions.length - 1) {
+                showResults();
+                return;
+            }
+            
+            currentQuestionIndex++;
+            showQuestion(currentQuestionIndex);
+        }
+        
+        // 前の質問を表示
+        function showPreviousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                showQuestion(currentQuestionIndex);
+            }
+        }
+        
+        // ボタンの状態を更新
+        function updateButtonStates() {
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            
+            prevBtn.disabled = currentQuestionIndex === 0;
+            
+            if (currentQuestionIndex === questions.length - 1) {
+                nextBtn.textContent = '結果を見る';
+            } else {
+                nextBtn.textContent = '次へ';
+            }
+        }
+        
+        // プログレスバーを更新
+        function updateProgressBar() {
+            const progressBar = document.getElementById('progress-bar');
+            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+        
+        // 対立軸ごとの値を計算
+        function calculateAxisValues() {
+            // 対立軸ごとのスコアを初期化
+            const axisScores = {};
+            
+            // 各対立軸に関連する質問を取得
+            questions.forEach(question => {
+                const axis = question.axis;
+                
+                if (!axisScores[axis]) {
+                    axisScores[axis] = { total: 0, count: 0, value: 0, category: question.category };
+                }
+            });
+            
+            // 各回答を処理
+            Object.entries(answers).forEach(([questionId, value]) => {
+                // 質問に対応する対立軸を取得
+                const question = questions.find(q => q.id === questionId);
+                const axis = question.axis;
+                
+                // 値を調整
+                let adjustedValue = value;
+                
+                // reverse属性が設定されている場合は値を反転
+                if (question.reverse) {
+                }else{
+                    adjustedValue = 6 - value; // 5→1, 4→2, 3→3, 2→4, 1→5
+                }
+                
+                // スコアを加算
+                axisScores[axis].total += adjustedValue;
+                axisScores[axis].count += 1;
+            });
+            
+            // 各対立軸の平均スコアを計算
+            Object.keys(axisScores).forEach(axis => {
+                if (axisScores[axis].count > 0) {
+                    // 1-5の範囲で平均値を計算
+                    axisScores[axis].value = parseFloat((axisScores[axis].total / axisScores[axis].count).toFixed(1));
+                }
+            });
+            
+            return axisScores;
+        }
+        
+	// 結果を表示
+	function showResults() {
+	    // 対立軸のスコアを計算
+	    const axisValues = calculateAxisValues();
+	    
+	    // 診断日時を取得
+	    const now = new Date();
+	    const formattedDate = now.toLocaleDateString();
+	    const formattedTime = now.toLocaleTimeString();
+	    
+	    // テスト表示を隠し、結果表示に切り替え
+	    document.getElementById('test-container').classList.add('hidden');
+	    document.getElementById('results-container').classList.remove('hidden');
+	    document.getElementById('results-container').style.display = 'block';
+	    document.querySelector('.navigation').classList.add('hidden');
+	    
+	    // 診断日時を表示
+	    const resultHeader = document.getElementById('results-container').querySelector('h2');
+	    resultHeader.innerHTML = `診断結果: あなたの価値観プロファイル <span style="font-size: 14px; font-weight: normal; display: block; margin-top: 5px;">診断日時: ${formattedDate} ${formattedTime}</span>`;
+	    
+	    // カテゴリーごとに対立軸を表示
+	    const categories = [
+	        { name: "自分と周りの人との関係", id: "category1-results" },
+	        { name: "変化への対応", id: "category2-results" },
+	        { name: "人との接し方", id: "category3-results" },
+	        { name: "幸せや成功の考え方", id: "category4-results" },
+	        { name: "考え方の傾向", id: "category5-results" }
+	    ];
+	    
+	    // 先にカテゴリーの内容をクリア
+	    categories.forEach(category => {
+	        const categoryContainer = document.getElementById(category.id);
+	        const header = categoryContainer.querySelector('h3');
+	        categoryContainer.innerHTML = '';
+	        categoryContainer.appendChild(header);
+	    });
+	    
+	    // 各カテゴリーに対立軸を表示
+	    categories.forEach(category => {
+	        const categoryContainer = document.getElementById(category.id);
+	        
+	        // カテゴリーに属する対立軸をフィルタリング
+	        const categoryAxes = Object.entries(axisValues)
+	            .filter(([axis, data]) => data.category === category.name)
+	            .map(([axis, data]) => ({ axis, value: data.value }));
+	        
+	        categoryAxes.forEach(({ axis, value }) => {
+	            // 対立軸の左右の値を取得
+	            const [leftPole, rightPole] = axis.split(" vs ");
+	            
+	            // 軸の説明を取得
+	            const axisDescription = axisDescriptions[axis] || "";
+	            
+	            // 左右のポールの説明を取得
+	            const leftPoleDesc = polarDescriptions[leftPole] || "";
+	            const rightPoleDesc = polarDescriptions[rightPole] || "";
+	            
+	            // スライダーの位置（0-100%）
+	            const sliderPosition = ((value - 1) / 4) * 100;
+	            
+	            // 対立軸コンテナを作成
+	            const axisContainer = document.createElement('div');
+	            axisContainer.classList.add('axis-container');
+	            
+	            axisContainer.innerHTML = `
+	                <div class="axis-title">${axis}</div>
+	                <div class="axis-slider-container">
+	                    <div class="axis-label">${leftPole}<br><small>${leftPoleDesc}</small></div>
+	                    <div class="axis-slider">
+	                        <div class="axis-indicator" style="left: ${sliderPosition}%;"></div>
+	                    </div>
+	                    <div class="axis-label">${rightPole}<br><small>${rightPoleDesc}</small></div>
+	                </div>
+	                <div class="axis-description">${axisDescription}</div>
+	            `;
+	            
+	            categoryContainer.appendChild(axisContainer);
+	        });
+	    });
+	    
+	    // 既存の活用法セクションを削除（もし存在していれば）
+	    const existingUtilizationSection = document.getElementById('utilization-section');
+	    if (existingUtilizationSection) {
+	        existingUtilizationSection.remove();
+	    }
+	    
+	    // 「もう一度診断する」ボタンの前に活用法セクションを追加
+	    const restartBtn = document.getElementById('restart-btn');
+	    const utilizationSection = document.createElement('div');
+	    utilizationSection.className = 'utilization-section';
+	    utilizationSection.id = 'utilization-section';
+	    utilizationSection.innerHTML = `
+	        <h3>診断結果の活用法</h3>
+	        <p>あなたの価値観の傾向を知ることは、より自分らしい選択をするための第一歩です。以下のような活用方法を試してみてください。価値観の変化を確認できるように本結果を記録に残しておくことをおすすめします：</p>
+	        <div class="utilization-cards">
+	            <div class="utilization-card">
+	                <h4>キャリア選択のガイド</h4>
+	                <p>あなたの価値観の傾向と合致する職業や働き方を探すことができます。自分の価値観に合った仕事を見つけることで、より高い満足度と充実感を得られる可能性があります。</p>
+	            </div>
+	            <div class="utilization-card">
+	                <h4>チームビルディングの参考資料</h4>
+	                <p>職場やプロジェクトでメンバーの価値観が可視化されると、お互いの考え方の違いを理解し尊重できます。多様な価値観を持つメンバーがいるチームは、より創造的な解決策を生み出せるでしょう。</p>
+	            </div>
+	            <div class="utilization-card">
+	                <h4>パートナーとの関係改善</h4>
+	                <p>恋人や配偶者と一緒に診断を受け、お互いの価値観の違いを話し合うきっかけになります。価値観の違いを理解することで、互いを尊重したコミュニケーションが可能になります。</p>
+	            </div>
+	            <div class="utilization-card">
+	                <h4>自己成長の指針</h4>
+	                <p>自分の現在の価値観を定期的に測定し、時間の経過とともにどう変化しているかを観察できます。人生の転機ごとに比較すると、自分の成長や変化の方向性が見えてきます。</p>
+	            </div>
+	            <div class="utilization-card">
+	                <h4>意思決定の補助ツール</h4>
+	                <p>重要な選択を迫られたとき、自分の価値観に沿った決断ができているかのチェックリストとして活用できます。自分の価値観を意識することで、後悔の少ない選択ができるでしょう。</p>
+	            </div>
+	        </div>
+	    `;
+
+	    // 「もう一度診断する」ボタンの前に活用法セクションを挿入
+	    const resultsContainer = document.getElementById('results-container');
+	    resultsContainer.insertBefore(utilizationSection, restartBtn);
+	}
+
+	// テストを最初からやり直す
+	function restartTest() {
+	    // 回答をリセット
+	    Object.keys(answers).forEach(key => delete answers[key]);
+	    
+	    // 質問を再度シャッフル
+	    shuffleQuestions();
+	    
+	    // 最初の質問に戻る
+	    currentQuestionIndex = 0;
+	    showQuestion(currentQuestionIndex);
+	    
+	    // 結果表示を隠し、テスト表示に切り替え
+	    document.getElementById('results-container').classList.add('hidden');
+	    document.getElementById('test-container').classList.remove('hidden');
+	    document.querySelector('.navigation').classList.remove('hidden');
+	}
+    </script>
+</body>
+</html>

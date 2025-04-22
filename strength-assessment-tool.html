@@ -1,0 +1,789 @@
+<!--
+Copyright (c) 2025 Daily Growth
+https://yourworklifedesign.blogspot.com/
+All rights reserved.
+-->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>あなた独自の専門的強み診断ツール</title>
+    <style>
+        :root {
+            --primary-color: #4a86e8;
+            --secondary-color: #f5b942;
+            --background-color: #f9f9f9;
+            --text-color: #333;
+            --light-gray: #e0e0e0;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .info-btn {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-left: 10px;
+            transition: background-color 0.3s;
+        }
+        
+        .info-btn:hover {
+            background-color: #e0a930;
+        }
+        
+        .info-panel {
+            background-color: #f8f8f8;
+            border: 1px solid var(--light-gray);
+            border-radius: var(--border-radius);
+            padding: 15px;
+            margin: 10px 0 20px 0;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .info-panel h4 {
+            margin-top: 10px;
+            margin-bottom: 5px;
+            color: var(--primary-color);
+        }
+        
+        .info-panel ul, .info-panel ol {
+            padding-left: 20px;
+            margin: 5px 0 15px 0;
+        }
+        
+        body {
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+        
+        h1, h2, h3 {
+            color: var(--primary-color);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+        
+        .intro {
+            margin-bottom: 30px;
+            background-color: rgba(74, 134, 232, 0.1);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        #test-container, #results-container {
+            margin-top: 20px;
+        }
+        
+        #results-container {
+            display: none;
+        }
+        
+        .question-card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+        
+        .question-text {
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .category-label {
+            display: inline-block;
+            padding: 3px 8px;
+            font-size: 12px;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+        
+        .knowledge {
+            background-color: rgba(74, 134, 232, 0.2);
+        }
+        
+        .skill {
+            background-color: rgba(245, 185, 66, 0.2);
+        }
+        
+        .quality {
+            background-color: rgba(52, 168, 83, 0.2);
+        }
+        
+        .options {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        
+        .options label {
+            text-align: center;
+            flex: 1;
+            padding: 8px 0;
+            cursor: pointer;
+            border: 1px solid var(--light-gray);
+            margin: 0 2px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        .options label:hover {
+            background-color: rgba(74, 134, 232, 0.1);
+        }
+        
+        .options input[type="radio"] {
+            display: none;
+        }
+        
+        .options input[type="radio"]:checked + label {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        .option-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #777;
+            margin-top: 5px;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #3a76d8;
+        }
+        
+        button:disabled {
+            background-color: var(--light-gray);
+            cursor: not-allowed;
+        }
+        
+        .progress-container {
+            height: 10px;
+            background-color: var(--light-gray);
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background-color: var(--primary-color);
+            width: 0%;
+            transition: width 0.3s;
+        }
+        
+        .strength-card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .strength-title {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+        
+        .strength-score {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-left: 10px;
+        }
+        
+        .strength-description {
+            margin-top: 10px;
+        }
+        
+        .chart-container {
+            height: 400px;
+            margin: 30px 0;
+            position: relative;
+         }
+        
+        #category-balance {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        
+        .category-item {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin: 0 5px;
+        }
+        
+        .category-item.knowledge {
+            background-color: rgba(74, 134, 232, 0.2);
+        }
+        
+        .category-item.skill {
+            background-color: rgba(245, 185, 66, 0.2);
+        }
+        
+        .category-item.quality {
+            background-color: rgba(52, 168, 83, 0.2);
+        }
+        
+        .category-score {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .options {
+                flex-direction: column;
+            }
+            
+            .options label {
+                margin: 2px 0;
+            }
+            
+            #category-balance {
+                flex-direction: column;
+            }
+            
+            .category-item {
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>あなた独自の専門的強み診断ツール</h1>
+        
+        <div class="intro">
+            <p>このツールは、あなたの「専門的強み」を3つの要素（知識、スキル、資質）から診断します。各質問に対して、あなたにどの程度当てはまるかを5段階で評価してください。</p>
+            <p>全40問の質問に回答すると、あなたの上位5つの強みを特定し、その意味と活用法をお伝えします。</p>
+        </div>
+        
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        
+        <div id="test-container">
+            <!-- 質問がJSで動的に挿入されます -->
+        </div>
+        
+        <div class="navigation">
+            <button id="prev-btn" disabled>前へ</button>
+            <button id="next-btn">次へ</button>
+        </div>
+        
+        <div id="results-container" class="hidden">
+            <h2>診断結果: あなたの専門的強み</h2>
+            
+            <div id="top-strengths">
+                <!-- 強み結果がJSで動的に挿入されます -->
+            </div>
+            
+            <h3>カテゴリーバランス <button id="category-info-btn" class="info-btn">説明</button></h3>
+            <div id="category-info" class="info-panel hidden">
+                <h4>カテゴリの意味</h4>
+                <ul>
+                    <li><strong>知識（何を知っているか）</strong>：業界知識、専門知識、独自の情報など</li>
+                    <li><strong>スキル（何ができるか）</strong>：分析力、コミュニケーション能力、技術的スキルなど</li>
+                    <li><strong>資質（どのように行動するか）</strong>：細部への注意力、創造性、粘り強さなど</li>
+                </ul>
+                <h4>カテゴリーバランスから分かること</h4>
+                <ol>
+                    <li><strong>総合的なプロフィール把握</strong>：あなたの強みがどの要素に偏っているか（例：知識は豊富だが、それを活かすスキルが相対的に弱いなど）</li>
+                    <li><strong>バランスの取れた成長方向</strong>：例えば「知識」スコアが突出して高く「資質」スコアが低い場合、知識をさらに増やすよりも、その知識を活かす資質面の強化が効果的かもしれない</li>
+                    <li><strong>職業適性の理解</strong>：例えば、スキルと資質が高く知識が低い場合、新しい分野でも適応できる可能性が高いなど</li>
+                </ol>
+            </div>
+            <div id="category-balance">
+                <!-- カテゴリーバランスがJSで動的に挿入されます -->
+            </div>
+            
+            <div class="chart-container">
+                <canvas id="strengths-chart"></canvas>
+            </div>
+            
+            <button id="restart-btn">もう一度診断する</button>
+        </div>
+    </div>
+
+    <script>
+        // 質問データ
+        const questions = [
+            // 知識カテゴリー (K)
+            { id: "K1", category: "知識", text: "私は職場で他の人があまり持っていない専門知識を持っている", mappings: ["専門技術知識", "分析思考力"] },
+            { id: "K2", category: "知識", text: "私は自分の分野に関連する新しい情報を素早く吸収し、記憶できる", mappings: ["情報管理力", "専門技術知識"] },
+            { id: "K3", category: "知識", text: "私は業界の動向や発展について同僚よりも理解している", mappings: ["戦略的視野", "専門技術知識"] },
+            { id: "K4", category: "知識", text: "同僚は特定の分野について私の専門知識をよく求めてくる", mappings: ["専門技術知識", "コミュニケーション能力"] },
+            { id: "K5", category: "知識", text: "問題解決時、関連する情報を簡単に思い出すことができる", mappings: ["問題解決力", "情報管理力"] },
+            { id: "K6", category: "知識", text: "読書やコース受講など、定期的に知識をアップデートしている", mappings: ["主体性", "専門技術知識"] },
+            { id: "K7", category: "知識", text: "仕事の特定の技術的側面について、周囲より深い理解がある", mappings: ["専門技術知識", "分析思考力"] },
+            { id: "K8", category: "知識", text: "複雑な概念を他の人が理解しやすいように簡潔に説明できる", mappings: ["コミュニケーション能力", "情報管理力"] },
+            { id: "K9", category: "知識", text: "過去の経験から得た独自の知識が現在の役割に役立っている", mappings: ["適応力", "専門技術知識"] },
+            { id: "K10", category: "知識", text: "異なる分野の知識を結びつけて問題解決することが得意である", mappings: ["創造性", "問題解決力"] },
+            { id: "K11", category: "知識", text: "複雑な情報や専門的な内容を、相手の知識レベルに合わせて適切に伝えることができる", mappings: ["コミュニケーション能力", "共感力"] },
+            { id: "K12", category: "知識", text: "組織やプロジェクトの将来的な方向性について、明確なビジョンを描くことができる", mappings: ["戦略的視野", "リーダーシップ"] },
+            { id: "K13", category: "知識", text: "複数の選択肢の利点と欠点を比較し、最適な戦略を選ぶことが得意である", mappings: ["戦略的視野", "問題解決力"] },
+            
+            // スキルカテゴリー (S)
+            { id: "S1", category: "スキル", text: "複雑な問題を分析し、扱いやすい部分に分解することが得意である", mappings: ["分析思考力", "問題解決力"] },
+            { id: "S2", category: "スキル", text: "自分のアイデアを他の人に明確で説得力のある方法で伝えられる", mappings: ["コミュニケーション能力", "リーダーシップ"] },
+            { id: "S3", category: "スキル", text: "情報を整理し、構造化されたアプローチを作ることが特に得意である", mappings: ["組織力", "情報管理力"] },
+            { id: "S4", category: "スキル", text: "人間関係の構築や様々なタイプの人との接続が上手である", mappings: ["関係構築力", "共感力"] },
+            { id: "S5", category: "スキル", text: "データや情報からパターンや洞察を素早く見つけられる", mappings: ["分析思考力", "情報管理力"] },
+            { id: "S6", category: "スキル", text: "問題に対する実用的な解決策を効果的に実装することができる", mappings: ["問題解決力", "主体性"] },
+            { id: "S7", category: "スキル", text: "対立の調停や他の人が苦労している時に妥協点を見つけることができる", mappings: ["関係構築力", "共感力"] },
+            { id: "S8", category: "スキル", text: "リソース（時間、予算、人）を効率的に管理することに長けている", mappings: ["組織力", "リーダーシップ"] },
+            { id: "S9", category: "スキル", text: "新しい方法へのアプローチや学習が同僚より速い", mappings: ["適応力", "主体性"] },
+            { id: "S10", category: "スキル", text: "従来のアプローチが通用しない時、創造的な問題解決が得意である", mappings: ["創造性", "問題解決力"] },
+            { id: "S11", category: "スキル", text: "文書やデータの小さな誤りや矛盾に気づくことが多い", mappings: ["細部への注意力", "分析思考力"] },
+            { id: "S12", category: "スキル", text: "作業の品質を確保するために、詳細なチェックリストや確認手順を使うことが多い", mappings: ["細部への注意力", "組織力"] },
+            { id: "S13", category: "スキル", text: "意思決定の際、短期的な結果だけでなく長期的な影響も考慮する", mappings: ["戦略的視野", "分析思考力"] },
+            { id: "S14", category: "スキル", text: "チームメンバーの強みを見抜き、それを活かす役割を任せることができる", mappings: ["リーダーシップ", "関係構築力"] }, 
+            
+            // 資質カテゴリー (A)
+            { id: "A1", category: "資質", text: "他の人が見落としがちな細部に注意を払うことができる", mappings: ["細部への注意力", "情報管理力"] },
+            { id: "A2", category: "資質", text: "周囲がストレスを感じる状況でも冷静さと集中力を維持できる", mappings: ["適応力", "粘り強さ"] },
+            { id: "A3", category: "資質", text: "難しい課題に対して、知人の多くよりも長く粘り強く取り組める", mappings: ["粘り強さ", "主体性"] },
+            { id: "A4", category: "資質", text: "自然と他者の感情や視点を意思決定に取り入れることができる", mappings: ["共感力", "関係構築力"] },
+            { id: "A5", category: "資質", text: "多くの同僚よりも計算されたリスクを取ることをいとわない", mappings: ["主体性", "創造性"] },
+            { id: "A6", category: "資質", text: "自分がした約束を一貫して最後までやり遂げる", mappings: ["粘り強さ", "組織力"] },
+            { id: "A7", category: "資質", text: "多くの人よりも好奇心と開放性を持って問題に取り組む", mappings: ["創造性", "適応力"] },
+            { id: "A8", category: "資質", text: "予期せぬ変化や挫折に対して適応力がある", mappings: ["適応力", "問題解決力"] },
+            { id: "A9", category: "資質", text: "自然と周囲の人よりも段取り上手で体系的である", mappings: ["組織力", "細部への注意力"] },
+            { id: "A10", category: "資質", text: "他の人よりもプロジェクトに熱意とポジティブなエネルギーをもたらす", mappings: ["リーダーシップ", "主体性"] },
+            { id: "A11", category: "資質", text: "初対面の人とも自然に会話を始め、良好な関係を築くことができる", mappings: ["関係構築力", "コミュニケーション能力"] },
+            { id: "A12", category: "資質", text: "計画通りに進まないときでも、目標を諦めずに別のアプローチを試みる", mappings: ["粘り強さ", "問題解決力"] },
+            { id: "A13", category: "資質", text: "言葉にされていない感情や懸念を読み取ることが得意である", mappings: ["共感力", "細部への注意力"] }
+        ];
+        
+        // 強みタイプの説明
+        const strengthDescriptions = {
+            "分析思考力": "複雑な情報を整理・分解し、パターンや関連性を見出す能力です。問題の本質を理解し、データに基づいた洞察を得ることに長けています。この強みは、論理的思考が求められる状況や、複雑な課題の分析が必要な場面で特に活きます。",
+            "専門技術知識": "特定の分野における深い専門知識と理解力を持っています。専門分野の最新情報を常に取り入れ、その知識を実践的に応用することができます。この強みは、専門的なアドバイスが求められる場面や、技術革新が必要な状況で特に価値を発揮します。",
+            "戦略的視野": "物事の大局を捉え、長期的な影響や可能性を予測する能力に優れています。複数の選択肢を比較検討し、最適な方向性を見出すことができます。この強みは、将来計画の立案や重要な意思決定を行う場面で特に役立ちます。",
+            "コミュニケーション能力": "自分の考えやアイデアを明確かつ説得力のある方法で伝えることができます。相手の理解度や状況に合わせて、コミュニケーションスタイルを調整する柔軟性も持っています。この強みは、プレゼンテーションやチーム内の情報共有、対外交渉などの場面で特に活きます。",
+            "関係構築力": "多様な人々と良好な関係を構築・維持する能力に優れています。信頼関係を築き、ネットワークを効果的に活用することができます。この強みは、チームワークやパートナーシップが重要な状況、また異なる部門間の協力が必要な場面で特に価値を発揮します。",
+            "問題解決力": "直面する課題に対して効果的な解決策を見出し、実行に移す能力があります。様々な角度から問題にアプローチし、実用的な対応策を考案することができます。この強みは、緊急事態への対応や、前例のない課題に取り組む場面で特に重要です。",
+            "細部への注意力": "重要な詳細を見落とさず、高い精度で作業を行う能力を持っています。細かな誤りや不整合を発見し、品質を確保することができます。この強みは、正確さが求められる業務や、品質管理が重要な場面で特に活きます。",
+            "適応力": "変化する環境や予期せぬ状況に柔軟に対応する能力に優れています。新しい条件や要求に素早く適応し、逆境においても効果的に機能することができます。この強みは、急速に変化する環境や、不確実性の高い状況で特に価値を発揮します。",
+            "粘り強さ": "困難や障害に直面しても諦めず、目標に向かって持続的に努力する能力があります。長期的な視点を持ち、一時的な挫折を乗り越える忍耐力を持っています。この強みは、長期プロジェクトや、多くの障害が予想される取り組みにおいて特に重要です。",
+            "創造性": "既存の枠組みにとらわれない、独創的なアイデアや解決策を生み出す能力を持っています。新しい視点や組み合わせを見出し、革新的なアプローチを提案することができます。この強みは、新しい製品開発や、従来の方法では解決できない問題に取り組む場面で特に活きます。",
+            "組織力": "活動や情報に構造と秩序をもたらす能力に優れています。効率的なシステムを設計し、複雑なプロセスを管理することができます。この強みは、プロジェクト管理や、効率化が求められる業務改善の場面で特に価値を発揮します。",
+            "リーダーシップ": "他者に影響を与え、共通の目標に向かって導く能力があります。ビジョンを共有し、チームのモチベーションを高め、協力して成果を上げるよう促すことができます。この強みは、チームをまとめる立場や、変革を推進する場面で特に重要です。",
+            "共感力": "他者の感情や視点を理解し、その立場に立って考える能力に優れています。相手のニーズや懸念を察知し、適切に対応することができます。この強みは、チーム内の対人関係や、顧客対応、コンフリクト解決の場面で特に活きます。",
+            "情報管理力": "多様な情報を効果的に収集、整理、活用する能力があります。重要な情報を見極め、アクセスしやすい形で管理することができます。この強みは、知識集約型の業務や、情報の共有・活用が重要な場面で特に価値を発揮します。",
+            "主体性": "自ら進んで行動し、機会を見出し、責任を持って取り組む姿勢を持っています。指示を待つのではなく、自発的に課題に取り組み、積極的に貢献することができます。この強みは、自律性が求められる役割や、新しい取り組みを始める場面で特に重要です。"
+        };
+        
+        // 現在の質問インデックス
+        let currentQuestionIndex = 0;
+        // 回答を保存する配列
+        const answers = {};
+        
+        // DOMが読み込まれたら実行
+        // 質問をシャッフルする関数
+        function shuffleQuestions() {
+            // 現在の時刻をシードとして使用
+            let seed = new Date().getTime(); // constからletに変更
+            const rng = function() {
+                const x = Math.sin(seed++) * 10000;
+                return x - Math.floor(x);
+            };
+            
+            // Fisher-Yates シャッフルアルゴリズム
+            let currentIndex = questions.length;
+            let temporaryValue, randomIndex;
+            
+            while (currentIndex !== 0) {
+                randomIndex = Math.floor(rng() * currentIndex);
+                currentIndex -= 1;
+                
+                temporaryValue = questions[currentIndex];
+                questions[currentIndex] = questions[randomIndex];
+                questions[randomIndex] = temporaryValue;
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // 質問をシャッフル
+            shuffleQuestions();
+            
+            // 最初の質問を表示
+            showQuestion(currentQuestionIndex);
+            
+            // ボタンのイベントリスナーを設定
+            document.getElementById('prev-btn').addEventListener('click', showPreviousQuestion);
+            document.getElementById('next-btn').addEventListener('click', showNextQuestion);
+            document.getElementById('restart-btn').addEventListener('click', restartTest);
+            
+            // 情報パネル表示/非表示の切り替え
+            document.getElementById('category-info-btn').addEventListener('click', function() {
+                const infoPanel = document.getElementById('category-info');
+                infoPanel.classList.toggle('hidden');
+                
+                // ボタンのテキストを切り替え
+                if (infoPanel.classList.contains('hidden')) {
+                    this.textContent = '説明';
+                } else {
+                    this.textContent = '閉じる';
+                }
+            });
+        });
+        
+        // 質問を表示する関数
+        function showQuestion(index) {
+            const questionContainer = document.getElementById('test-container');
+            const question = questions[index];
+            
+            // カテゴリーに基づいたクラス名
+            const categoryClass = question.category === "知識" ? "knowledge" : 
+                                question.category === "スキル" ? "skill" : "quality";
+            
+            // 質問カードのHTML
+            const questionHTML = `
+                <div class="question-card" id="question-${question.id}">
+                    <div class="question-header">
+                        <span class="question-number">質問 ${index + 1}/${questions.length}</span>
+                    </div>
+                    <div class="question-text">${question.text}</div>
+                    <div class="options">
+                        <input type="radio" name="q${index}" id="q${index}-1" value="1" ${answers[question.id] === 1 ? 'checked' : ''}>
+                        <label for="q${index}-1">1</label>
+                        <input type="radio" name="q${index}" id="q${index}-2" value="2" ${answers[question.id] === 2 ? 'checked' : ''}>
+                        <label for="q${index}-2">2</label>
+                        <input type="radio" name="q${index}" id="q${index}-3" value="3" ${answers[question.id] === 3 ? 'checked' : ''}>
+                        <label for="q${index}-3">3</label>
+                        <input type="radio" name="q${index}" id="q${index}-4" value="4" ${answers[question.id] === 4 ? 'checked' : ''}>
+                        <label for="q${index}-4">4</label>
+                        <input type="radio" name="q${index}" id="q${index}-5" value="5" ${answers[question.id] === 5 ? 'checked' : ''}>
+                        <label for="q${index}-5">5</label>
+                    </div>
+                    <div class="option-labels">
+                        <span>全く当てはまらない</span>
+                        <span>非常に当てはまる</span>
+                    </div>
+                </div>
+            `;
+            
+            questionContainer.innerHTML = questionHTML;
+            
+            // ラジオボタンのイベントリスナーを設定
+            const radioButtons = document.querySelectorAll(`input[name="q${index}"]`);
+            radioButtons.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    answers[question.id] = parseInt(this.value);
+                });
+            });
+            
+            // ボタンの有効/無効状態を更新
+            updateButtonStates();
+            
+            // プログレスバーを更新
+            updateProgressBar();
+        }
+        
+        // 次の質問を表示
+        function showNextQuestion() {
+            const currentQuestion = questions[currentQuestionIndex];
+            
+            // 現在の質問に回答があるか確認
+            if (answers[currentQuestion.id] === undefined) {
+                alert('質問に回答してください');
+                return;
+            }
+            
+            // 最後の質問の場合は結果を表示
+            if (currentQuestionIndex === questions.length - 1) {
+                showResults();
+                return;
+            }
+            
+            currentQuestionIndex++;
+            showQuestion(currentQuestionIndex);
+        }
+        
+        // 前の質問を表示
+        function showPreviousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                showQuestion(currentQuestionIndex);
+            }
+        }
+        
+        // ボタンの状態を更新
+        function updateButtonStates() {
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            
+            prevBtn.disabled = currentQuestionIndex === 0;
+            
+            if (currentQuestionIndex === questions.length - 1) {
+                nextBtn.textContent = '結果を見る';
+            } else {
+                nextBtn.textContent = '次へ';
+            }
+        }
+        
+        // プログレスバーを更新
+        function updateProgressBar() {
+            const progressBar = document.getElementById('progress-bar');
+            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+        
+        // 強みを計算
+        function calculateStrengths() {
+            // 強みごとのスコアを初期化
+            const strengthScores = {};
+            Object.keys(strengthDescriptions).forEach(strength => {
+                strengthScores[strength] = { score: 0, count: 0 };
+            });
+            
+            // 各回答を処理
+            Object.entries(answers).forEach(([questionId, value]) => {
+                // その質問に関連する強みタイプを取得
+                const question = questions.find(q => q.id === questionId);
+                const relatedStrengths = question.mappings;
+                
+                // 関連する各強みタイプにスコアを加算
+                relatedStrengths.forEach(strength => {
+                    strengthScores[strength].score += value;
+                    strengthScores[strength].count += 1;
+                });
+            });
+            
+            // 各強みタイプの平均スコアを計算
+            const averagedScores = {};
+            Object.entries(strengthScores).forEach(([strength, data]) => {
+                if (data.count > 0) {
+                    averagedScores[strength] = parseFloat((data.score / data.count).toFixed(1));
+                } else {
+                    averagedScores[strength] = 0;
+                }
+            });
+            
+            return averagedScores;
+        }
+        
+        // カテゴリーバランスを分析
+        function analyzeCategories() {
+            const categories = {
+                "知識": { score: 0, count: 0 },
+                "スキル": { score: 0, count: 0 },
+                "資質": { score: 0, count: 0 }
+            };
+            
+            // 各回答をカテゴリーに分類
+            Object.entries(answers).forEach(([questionId, value]) => {
+                // 全ての質問から質問IDに一致するものを探す
+                const allQuestions = [
+                    ...questions // シャッフルされた質問
+                ];
+                
+                const question = allQuestions.find(q => q.id === questionId);
+                if (question) {
+                    const category = question.category;
+                    categories[category].score += value;
+                    categories[category].count += 1;
+                }
+            });
+            
+            // 各カテゴリーの平均スコアを計算
+            Object.keys(categories).forEach(category => {
+                if (categories[category].count > 0) {
+                    categories[category].average = 
+                        parseFloat((categories[category].score / categories[category].count).toFixed(1));
+                } else {
+                    categories[category].average = 0;
+                }
+            });
+            
+            return categories;
+        }
+        
+        // 上位の強みを取得
+        function getTopStrengths(scores, count = 5) {
+            // スコアでソートした強みタイプのリストを生成
+            return Object.entries(scores)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, count)
+                .map(([strength, score]) => ({
+                    type: strength,
+                    score: score,
+                    description: strengthDescriptions[strength]
+                }));
+        }
+        
+        // 結果を表示
+        function showResults() {
+            // 強みスコアを計算
+            const strengthScores = calculateStrengths();
+            const topStrengths = getTopStrengths(strengthScores);
+            const categoryAnalysis = analyzeCategories();
+            
+            // テスト表示を隠し、結果表示に切り替え
+            document.getElementById('test-container').classList.add('hidden');
+            document.getElementById('results-container').classList.remove('hidden');
+            document.getElementById('results-container').style.display = 'block';
+            document.querySelector('.navigation').classList.add('hidden');
+            
+            // 上位強みを表示
+            const topStrengthsContainer = document.getElementById('top-strengths');
+            topStrengthsContainer.innerHTML = '';
+            
+            topStrengths.forEach((strength, index) => {
+                const strengthCard = document.createElement('div');
+                strengthCard.classList.add('strength-card');
+                strengthCard.innerHTML = `
+                    <div class="strength-title">
+                        ${index + 1}. ${strength.type}
+                        <span class="strength-score">${strength.score}</span>
+                    </div>
+                    <div class="strength-description">${strength.description}</div>
+                `;
+                topStrengthsContainer.appendChild(strengthCard);
+            });
+            
+            // カテゴリーバランスを表示
+            const categoryBalanceContainer = document.getElementById('category-balance');
+            categoryBalanceContainer.innerHTML = '';
+            
+            Object.entries(categoryAnalysis).forEach(([category, data]) => {
+                const categoryClass = category === "知識" ? "knowledge" : 
+                                    category === "スキル" ? "skill" : "quality";
+                                    
+                const categoryItem = document.createElement('div');
+                categoryItem.classList.add('category-item', categoryClass);
+                categoryItem.innerHTML = `
+                    <div class="category-name">${category}</div>
+                    <div class="category-score">${data.average}</div>
+                `;
+                categoryBalanceContainer.appendChild(categoryItem);
+            });
+            
+            // チャートを描画
+            renderChart(topStrengths);
+        }
+        
+        // グラフを描画
+        function renderChart(topStrengths) {
+            const ctx = document.getElementById('strengths-chart').getContext('2d');
+            
+            // データを準備
+            const labels = topStrengths.map(s => s.type);
+            const data = topStrengths.map(s => s.score);
+            
+            // チャート描画
+            new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'あなたの強みプロファイル',
+                        data: data,
+                        backgroundColor: 'rgba(74, 134, 232, 0.2)',
+                        borderColor: 'rgba(74, 134, 232, 1)',
+                        pointBackgroundColor: 'rgba(74, 134, 232, 1)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(74, 134, 232, 1)'
+                    }]
+                },
+                options: {
+        responsive: true,
+        maintainAspectRatio: false, // This allows the chart to adjust its size
+                    scales: {
+                        r: {
+                            min: 0,
+                            max: 5,
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        // テストを最初からやり直す
+        function restartTest() {
+            // 回答をリセット
+            Object.keys(answers).forEach(key => delete answers[key]);
+            
+            // 質問を再度シャッフル
+            shuffleQuestions();
+            
+            // 最初の質問に戻る
+            currentQuestionIndex = 0;
+            showQuestion(currentQuestionIndex);
+            
+            // 結果表示を隠し、テスト表示に切り替え
+            document.getElementById('results-container').classList.add('hidden');
+            document.getElementById('test-container').classList.remove('hidden');
+            document.querySelector('.navigation').classList.remove('hidden');
+        }
+    </script>
+    
+    <!-- Chart.js ライブラリを読み込み -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,1271 @@
+<!--
+Copyright (c) 2025 Daily Growth
+https://yourworklifedesign.blogspot.com/
+All rights reserved.
+-->
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMART目標設定ツール</title>
+    <style>
+        :root {
+            --primary: #4285f4;
+            --secondary: #34a853;
+            --warning: #fbbc05;
+            --danger: #ea4335;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --gray: #6c757d;
+        }
+        
+        body {
+            font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+        
+        h1 {
+            text-align: center;
+            color: var(--primary);
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+        
+        .description {
+            background-color: var(--light);
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 25px;
+            border-left: 5px solid var(--primary);
+        }
+        
+        .smart-section {
+            margin-bottom: 25px;
+            padding: 20px;
+            border-radius: 8px;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border: 1px solid #e9ecef;
+            position: relative;
+        }
+        
+        .smart-section h2 {
+            margin-top: 0;
+            color: var(--dark);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+        
+        .smart-letter {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        
+        .s-color { background-color: #4285f4; }
+        .m-color { background-color: #34a853; }
+        .a-color { background-color: #fbbc05; }
+        .r-color { background-color: #ea4335; }
+        .t-color { background-color: #9c27b0; }
+        
+        #summary .smart-letter {
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            font-size: 16px;
+            margin-right: 5px;
+        }
+
+        #summary .summary-label {
+            display: flex;
+            align-items: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        input[type="text"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="text"]:focus,
+        textarea:focus,
+        select:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.2);
+        }
+ 
+        input[type="date"] {
+            width: 170px; /* または必要なサイズに調整 */
+            height:30px;
+        }
+        
+        textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+        
+        .info-tooltip {
+            position: relative;
+            display: inline-block;
+            margin-left: 8px;
+            cursor: help;
+        }
+        
+        .info-icon {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background-color: var(--gray);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 25px;
+            font-size: 24px;
+        }
+        
+        .tooltip-content {
+            visibility: hidden;
+            width: 300px;
+            background-color: #333;
+            color: #fff;
+            text-align: left;
+            border-radius: 6px;
+            padding: 10px;
+            position: absolute;
+            z-index: 1;
+            top: -5px;
+            left: 130%;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 18px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .tooltip-content::after {
+            content: "";
+            position: absolute;
+            top: 15px;
+            right: 100%;
+            border-width: 5px;
+            border-style: solid;
+            border-color: transparent #333 transparent transparent;
+        }
+
+        .info-tooltip:hover .tooltip-content {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        .btn {
+            display: inline-block;
+            font-weight: 500;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            user-select: none;
+            border: 1px solid transparent;
+            padding: 10px 20px;
+            font-size: 16px;
+            line-height: 1.5;
+            border-radius: 4px;
+            transition: all 0.15s ease-in-out;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            color: #fff;
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+        
+        .btn-primary:hover {
+            background-color: #3367d6;
+            border-color: #3367d6;
+        }
+        
+        .btn-success {
+            color: #fff;
+            background-color: var(--secondary);
+            border-color: var(--secondary);
+        }
+        
+        .btn-success:hover {
+            background-color: #2d9348;
+            border-color: #2d9348;
+        }
+
+        .btn-warning {
+            color: #fff;
+            background-color: var(--warning);
+            border-color: var(--warning);
+        }
+        
+        .btn-warning:hover {
+            background-color: #e6a800;
+            border-color: #e6a800;
+        }
+        
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        #summary {
+            display: none;
+            margin-top: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        #summary h2 {
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .summary-content {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .summary-item {
+            margin-bottom: 15px;
+        }
+        
+        .summary-label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .summary-text {
+            font-size: 18px;
+            line-height: 1.6;
+            text-indent: 1em;
+        }
+        
+        .print-btn {
+            background-color: white;
+            color: var(--primary);
+            font-weight: bold;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto 0;
+            transition: all 0.3s;
+        }
+        
+        .print-btn:hover {
+            background-color: rgba(255, 255, 255, 0.9);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        }
+        
+        /* 目標管理システム用のスタイル */
+        .goal-management {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: var(--light);
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .goal-management h3 {
+            color: var(--primary);
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+        
+        .goal-list {
+            margin-bottom: 20px;
+        }
+        
+        .goal-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            transition: all 0.2s;
+        }
+        
+        .goal-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .goal-name {
+            font-weight: 500;
+            flex-grow: 1;
+        }
+        
+        .goal-date {
+            color: var(--gray);
+            margin-right: 15px;
+            font-size: 14px;
+        }
+        
+        .goal-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .goal-btn {
+            padding: 5px 10px;
+            font-size: 14px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        
+        .goal-input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .goal-title-input {
+            font-weight: 500;
+            font-size: 18px;
+        }
+        
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #summary, #summary *,
+            #goalDetailModal, #goalDetailModal * {
+                visibility: visible;
+            }
+            #summary, #goalDetailModal {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                background: white !important;
+                color: black !important;
+            }
+            .print-btn, #closeModal, #editGoalBtn {
+                display: none;
+            }
+            .summary-label {
+                color: #333 !important;
+            }
+            .smart-letter {
+                color: white !important;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            .tooltip-content {
+                width: 250px;
+                margin-left: -125px;
+            }
+        }
+        
+        /* タブのスタイル */
+        .tabs {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 10px 20px;
+            margin-right: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--gray);
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+        }
+        
+        .tab-btn.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* ページネーション */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .page-btn {
+            background-color: white;
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            margin: 0 5px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        
+        .page-btn:hover {
+            background-color: var(--light);
+        }
+        
+        .page-btn.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        /* アラート */
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            display: none;
+        }
+        
+        .alert-success {
+            background-color: rgba(52, 168, 83, 0.1);
+            border-left: 5px solid var(--secondary);
+            color: var(--secondary);
+        }
+        
+        .alert-danger {
+            background-color: rgba(234, 67, 53, 0.1);
+            border-left: 5px solid var(--danger);
+            color: var(--danger);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>SMART目標設定ツール</h1>
+        
+        <div class="description">
+            <p>SMART目標とは、効果的な目標設定のための5つの基準を表す頭字語です。このツールを使用して、仕事と生活の調和という観点から、各要素を深く理解した目標を設定しましょう。最大10個の目標を保存できます。</p>
+        </div>
+        
+    <p><a href="https://yourworklifedesign.blogspot.com/2025/04/smart_17.html"> マニュアルはこちら</a> </p>
+
+        <!-- タブナビゲーション -->
+        <div class="tabs">
+            <button type="button" class="tab-btn active" data-tab="form-tab">目標設定</button>
+            <button type="button" class="tab-btn" data-tab="saved-tab">保存済み目標</button>
+        </div>
+        
+        <!-- 目標設定タブ -->
+        <div id="form-tab" class="tab-content active">
+            <!-- アラート -->
+            <div id="saveAlert" class="alert alert-success">目標が保存されました！</div>
+            
+            <form id="smartGoalForm">
+                <!-- 目標タイトル入力 -->
+                <div class="form-group">
+                    <label for="goalTitle">目標のタイトル：</label>
+                    <input type="text" id="goalTitle" name="goalTitle" class="goal-title-input" placeholder="例：家族との時間確保" required>
+                </div>
+                
+                <!-- Specific（具体的） -->
+                <div class="smart-section">
+                    <h2><span class="smart-letter s-color">S</span>Specific（具体的）
+                        <div class="info-tooltip">
+                            <span class="info-icon">?</span>
+                            <div class="tooltip-content">
+                                <p>漠然とした「もっと充実した生活を送りたい」ではなく、「毎週水曜日と土曜日の夜は家族👨‍👩‍👧との時間を確保し、一緒に夕食を取りながら一日の出来事を共有する」というように具体的にします。</p>
+                                <p>仕事の目標も「営業成績を上げる」ではなく「既存顧客🧑‍💼との月1回の定期面談を導入し、追加ニーズを発掘する」と具体化します。</p>
+                                <p>「具体的な目標なんて立てても環境が変わればすぐに崩れる」と考える方もいるでしょう。確かに予測不能な変化は起こりますが、だからこそ定期的な見直しと調整を前提とした具体的な目標が重要です。曖昧な目標では、そもそも調整のしようがありません。</p>
+                            </div>
+                        </div>
+                    </h2>
+                    
+                    <div class="form-group">
+                        <label for="specificGoal">具体的に何をするのか詳細に記述してください：</label>
+                        <textarea id="specificGoal" name="specificGoal" placeholder="例：毎週水曜日と土曜日の夜は家族との時間を確保し、一緒に夕食を取りながら一日の出来事を共有する"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="specificWhy">なぜこの具体的な行動が重要ですか？</label>
+                        <textarea id="specificWhy" name="specificWhy" placeholder="例：家族との絆を深め、コミュニケーションを改善するため"></textarea>
+                    </div>
+                </div>
+                
+                <!-- Measurable（測定可能） -->
+                <div class="smart-section">
+                    <h2><span class="smart-letter m-color">M</span>Measurable（測定可能）
+                        <div class="info-tooltip">
+                            <span class="info-icon">?</span>
+                            <div class="tooltip-content">
+                                <p>進捗を測る明確な指標を設定します。仕事面では「四半期ごとに2件の新規契約獲得」、生活面では「週に3回、30分以上の運動🏃を行う」など、数値化できる指標が理想的です。</p>
+                                <p>測定することで達成感を得られ、次のステップへのモチベーション🔋になります。</p>
+                                <p>「数値化できないものもある」という批判もありますが、直接測定できなくても、代替指標を考えることは可能です。例えば「家族関係の改善」は「一緒に笑った回数」「会話の時間」などで間接的に測ることができます。</p>
+                            </div>
+                        </div>
+                    </h2>
+                    
+                    <div class="form-group">
+                        <label for="measurableMetric">どのように進捗を測定しますか？</label>
+                        <input type="text" id="measurableMetric" name="measurableMetric" placeholder="例：週あたりの家族との食事回数" />
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="measurableTarget">目標となる具体的な数値は？</label>
+                        <input type="text" id="measurableTarget" name="measurableTarget" placeholder="例：週2回以上" />
+                    </div>
+                </div>
+                
+                <!-- Achievable（達成可能） -->
+                <div class="smart-section">
+                    <h2><span class="smart-letter a-color">A</span>Achievable（達成可能）
+                        <div class="info-tooltip">
+                            <span class="info-icon">?</span>
+                            <div class="tooltip-content">
+                                <p>目標は挑戦的でありながらも、現実的に達成可能なものである必要があります。現在の状況から大きくかけ離れた目標は、挫折感😞を生み出すだけです。</p>
+                                <p>例えば、全く運動🏋️習慣がない状態から「毎日1時間のジョギング」と設定するより、「週3回、10分からのウォーキング」から始めるほうが現実的です。</p>
+                                <p>「高い目標を設定しないと成長できない」という意見もあるでしょう。理想と現実のバランスが重要です。目標は「ストレッチゾーン」にあるべきで、快適ゾーンの外だが恐怖ゾーンの中ではない位置が最適です。</p>
+                            </div>
+                        </div>
+                    </h2>
+                    
+                    <div class="form-group">
+                        <label for="currentState">現在の状況：</label>
+                        <textarea id="currentState" name="currentState" placeholder="例：現在は月に1回程度しか家族全員での夕食の時間が取れていない"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="achievableSteps">目標達成のための具体的なステップ：</label>
+                        <textarea id="achievableSteps" name="achievableSteps" placeholder="例：1. カレンダーに家族の夕食の時間を予定として入れる 2. 仕事の予定を調整し、水曜と土曜の夜は早く帰宅できるようにする"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="achievabilityRating">この目標はどれくらい達成可能だと思いますか？</label>
+                        <select id="achievabilityRating" name="achievabilityRating">
+                            <option value="">選択してください</option>
+                            <option value="very_easy">かなり簡単（快適ゾーン）</option>
+                            <option value="somewhat_easy">やや簡単（快適ゾーン）</option>
+                            <option value="moderate">適度な挑戦（ストレッチゾーン）</option>
+                            <option value="somewhat_difficult">やや難しい（ストレッチゾーン）</option>
+                            <option value="very_difficult">かなり難しい（恐怖ゾーン）</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Relevant（関連性） -->
+                <div class="smart-section">
+                    <h2><span class="smart-letter r-color">R</span>Relevant（関連性）
+                        <div class="info-tooltip">
+                            <span class="info-icon">?</span>
+                            <div class="tooltip-content">
+                                <p>目標は自分の価値観や人生の方向性と一致していることが重要です。会社から求められる目標と自分の価値観が大きく乖離している場合、長続きしません。</p>
+                                <p>「なぜこの目標が自分にとって重要なのか」「この目標は自分の理想とする生き方にどう貢献するのか」を常に問いかけましょう。</p>
+                                <p>「会社の目標と自分の価値観が合わない」と悩む方も多いでしょう。その場合は、会社の目標を達成しながらも自分の価値観に沿った要素を見出す工夫が必要です。例えば「売上目標の達成」が自己の「顧客の問題解決能力の向上」という価値観と結びつけられれば、両立は可能です。</p>
+                            </div>
+                        </div>
+                    </h2>
+                    
+                    <div class="form-group">
+                        <label for="relevantValues">あなたの重要な価値観や優先事項：</label>
+                        <textarea id="relevantValues" name="relevantValues" placeholder="例：家族との絆、ワークライフバランス、健康的な生活"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="relevantAlignment">この目標があなたの価値観とどのように一致していますか？</label>
+                        <textarea id="relevantAlignment" name="relevantAlignment" placeholder="例：家族との定期的な時間を確保することで、私にとって最も大切な「家族との絆」という価値観を実現できる"></textarea>
+                    </div>
+                </div>
+                
+                <!-- Time-bound（期限付き） -->
+                <div class="smart-section">
+                    <h2><span class="smart-letter t-color">T</span>Time-bound（期限付き）
+                        <div class="info-tooltip">
+                            <span class="info-icon">?</span>
+                            <div class="tooltip-content">
+                                <p>「いつかは」ではなく、明確な期限を設定します。短期的なマイルストーンと長期的なゴール🏁を組み合わせることで、継続的なモチベーションを維持できます。</p>
+                                <p>「3ヶ月後に部内プレゼンテーションを行う」「1年後に英語でのビジネス会話ができるようになる」など、具体的な時間軸を設定しましょう。</p>
+                                <p>「期限を設けると焦りやストレスが生じる」という懸念もあるでしょう。適切な期限設定は適度な緊張感を生み出しますが、あまりに厳しい期限はかえって逆効果です。自分のペースと能力を考慮し、少し頑張れば達成できる期限を設定しましょう。</p>
+                            </div>
+                        </div>
+                    </h2>
+                    
+                    <div class="form-group">
+                        <label for="startDate">開始日：</label>
+                        <input type="date" id="startDate" name="startDate">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="endDate">目標達成期限：</label>
+                        <input type="date" id="endDate" name="endDate">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="milestones">中間マイルストーン（期限付き）：</label>
+                        <textarea id="milestones" name="milestones" placeholder="例：1か月目：週1回の家族との夕食を確立する 3か月目：週2回の家族との夕食を習慣化する"></textarea>
+                    </div>
+                </div>
+                
+                <div class="actions">
+                    <button type="button" id="resetBtn" class="btn">リセット</button>
+                    <button type="button" id="generateBtn" class="btn btn-primary">SMART目標を生成</button>
+                </div>
+            </form>
+            
+            <!-- Summary Section -->
+            <div id="summary">
+                <h2>あなたのSMART目標</h2>
+                
+                <div class="summary-content">
+                    <div class="summary-item">
+                        <span class="summary-label">目標タイトル</span>
+                        <p id="summaryTitle" class="summary-text" style="font-weight: bold; font-size: 20px;"></p>
+                    </div>
+                    
+                    <div class="summary-item">
+                        <span class="summary-label"><span class="smart-letter s-color">S</span>pecific（具体的）</span>
+                        <p id="summarySpecific" class="summary-text"></p>
+                    </div>
+                    
+                    <div class="summary-item">
+                        <span class="summary-label"><span class="smart-letter m-color">M</span>easurable（測定可能）</span>
+                        <p id="summaryMeasurable" class="summary-text"></p>
+                    </div>
+                    
+                    <div class="summary-item">
+                        <span class="summary-label"><span class="smart-letter a-color">A</span>chievable（達成可能）</span>
+                        <p id="summaryAchievable" class="summary-text"></p>
+                    </div>
+                    
+                    <div class="summary-item">
+                        <span class="summary-label"><span class="smart-letter r-color">R</span>elevant（関連性）</span>
+                        <p id="summaryRelevant" class="summary-text"></p>
+                    </div>
+                    
+                    <div class="summary-item">
+                        <span class="summary-label"><span class="smart-letter t-color">T</span>ime-bound（期限付き）</span>
+                        <p id="summaryTimebound" class="summary-text"></p>
+                    </div>
+                </div>
+                
+                <div class="actions">
+                    <button type="button" id="printBtn" class="print-btn">印刷する</button>
+                    <button type="button" id="saveGoalBtn" class="btn btn-success">この目標を保存する</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 保存済み目標タブ -->
+        <div id="saved-tab" class="tab-content">
+            <div class="goal-management">
+                <h3>保存された目標一覧</h3>
+                
+                <!-- アラート -->
+                <div id="deleteAlert" class="alert alert-danger">目標が削除されました</div>
+                
+                <div id="goalList" class="goal-list">
+                    <!-- 保存された目標がここに表示されます -->
+                    <div class="no-goals" style="text-align: center; padding: 20px; color: var(--gray);">
+                        保存された目標はありません。
+                    </div>
+                </div>
+                
+                <!-- ページネーション -->
+                <div class="pagination" id="goalPagination">
+                    <!-- ページネーションボタンがここに表示されます -->
+                </div>
+            </div>
+            
+            <!-- 目標詳細表示用モーダル -->
+            <div id="goalDetailModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 1000;">
+                <div style="position: relative; width: 80%; max-width: 800px; margin: 50px auto; background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.3);">
+                    <button id="closeModal" style="position: absolute; top: 10px; right: 10px; background: none; border: none; font-size: 24px; cursor: pointer;">&times;</button>
+                    <h3 id="modalTitle" style="color: var(--primary); margin-top: 0;"></h3>
+                    
+                    <div class="summary-content" style="background-color: var(--light); padding: 20px; border-radius: 8px; margin-bottom: 15px;">
+                        <div class="summary-item">
+                            <span class="summary-label" style="color: var(--dark);">目標タイトル</span>
+                            <p id="modalTitleContent" class="summary-text" style="text-indent: 1em; font-weight: bold; font-size: 20px;"></p>
+                        </div>
+                        
+                        <div class="summary-item">
+                            <span class="summary-label" style="color: var(--dark);"><span class="smart-letter s-color">S</span>pecific（具体的）</span>
+                            <p id="modalSpecific" class="summary-text" style="text-indent: 1em;"></p>
+                        </div>
+                        
+                        <div class="summary-item">
+                            <span class="summary-label" style="color: var(--dark);"><span class="smart-letter m-color">M</span>easurable（測定可能）</span>
+                            <p id="modalMeasurable" class="summary-text" style="text-indent: 1em;"></p>
+                        </div>
+                        
+                        <div class="summary-item">
+                            <span class="summary-label" style="color: var(--dark);"><span class="smart-letter a-color">A</span>chievable（達成可能）</span>
+                            <p id="modalAchievable" class="summary-text" style="text-indent: 1em;"></p>
+                        </div>
+                        
+                        <div class="summary-item">
+                            <span class="summary-label" style="color: var(--dark);"><span class="smart-letter r-color">R</span>elevant（関連性）</span>
+                            <p id="modalRelevant" class="summary-text" style="text-indent: 1em;"></p>
+                        </div>
+                        
+                        <div class="summary-item">
+                            <span class="summary-label" style="color: var(--dark);"><span class="smart-letter t-color">T</span>ime-bound（期限付き）</span>
+                            <p id="modalTimebound" class="summary-text" style="text-indent: 1em;"></p>
+                        </div>
+                    </div>
+                    
+                    <div class="actions" style="display: flex; justify-content: space-between;">
+                        <button id="editGoalBtn" class="btn btn-primary">この目標を編集</button>
+                        <button id="printModalBtn" class="btn">印刷する</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // フォーム要素
+            const form = document.getElementById('smartGoalForm');
+            const generateBtn = document.getElementById('generateBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            const printBtn = document.getElementById('printBtn');
+            const summarySection = document.getElementById('summary');
+            const saveGoalBtn = document.getElementById('saveGoalBtn');
+            const saveAlert = document.getElementById('saveAlert');
+            const deleteAlert = document.getElementById('deleteAlert');
+            
+            // タブ関連
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            // 目標データ管理
+            let goals = [];
+            const MAX_GOALS = 10;
+            let currentGoalId = null;
+            let currentPage = 1;
+            const GOALS_PER_PAGE = 5;
+            
+            // ローカルストレージから目標データを読み込む
+            function loadGoals() {
+                const savedGoals = localStorage.getItem('smartGoals');
+                if (savedGoals) {
+                    goals = JSON.parse(savedGoals);
+                    updateGoalList();
+                }
+            }
+            
+            // 目標データをローカルストレージに保存
+            function saveGoals() {
+                localStorage.setItem('smartGoals', JSON.stringify(goals));
+            }
+            
+            // 日付のフォーマット関数（YYYY年MM月DD日）
+            function formatDate(dateString) {
+                if (!dateString) return '';
+                const date = new Date(dateString);
+                return `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日`;
+            }
+            
+            // フォームから目標データを取得
+            function getGoalDataFromForm() {
+                const goalTitle = document.getElementById('goalTitle').value;
+                const specificGoal = document.getElementById('specificGoal').value;
+                const specificWhy = document.getElementById('specificWhy').value;
+                const measurableMetric = document.getElementById('measurableMetric').value;
+                const measurableTarget = document.getElementById('measurableTarget').value;
+                const currentState = document.getElementById('currentState').value;
+                const achievableSteps = document.getElementById('achievableSteps').value;
+                const achievabilityRating = document.getElementById('achievabilityRating').value;
+                const relevantValues = document.getElementById('relevantValues').value;
+                const relevantAlignment = document.getElementById('relevantAlignment').value;
+                const startDate = document.getElementById('startDate').value;
+                const endDate = document.getElementById('endDate').value;
+                const milestones = document.getElementById('milestones').value;
+                
+                return {
+                    id: currentGoalId || Date.now(),
+                    title: goalTitle,
+                    specific: {
+                        goal: specificGoal,
+                        why: specificWhy
+                    },
+                    measurable: {
+                        metric: measurableMetric,
+                        target: measurableTarget
+                    },
+                    achievable: {
+                        currentState: currentState,
+                        steps: achievableSteps,
+                        rating: achievabilityRating
+                    },
+                    relevant: {
+                        values: relevantValues,
+                        alignment: relevantAlignment
+                    },
+                    timebound: {
+                        startDate: startDate,
+                        endDate: endDate,
+                        milestones: milestones
+                    }
+                };
+            }
+            
+            // フォームに目標データをセット
+            function setGoalDataToForm(goalData) {
+                document.getElementById('goalTitle').value = goalData.title || '';
+                document.getElementById('specificGoal').value = goalData.specific.goal || '';
+                document.getElementById('specificWhy').value = goalData.specific.why || '';
+                document.getElementById('measurableMetric').value = goalData.measurable.metric || '';
+                document.getElementById('measurableTarget').value = goalData.measurable.target || '';
+                document.getElementById('currentState').value = goalData.achievable.currentState || '';
+                document.getElementById('achievableSteps').value = goalData.achievable.steps || '';
+                document.getElementById('achievabilityRating').value = goalData.achievable.rating || '';
+                document.getElementById('relevantValues').value = goalData.relevant.values || '';
+                document.getElementById('relevantAlignment').value = goalData.relevant.alignment || '';
+                document.getElementById('startDate').value = goalData.timebound.startDate || '';
+                document.getElementById('endDate').value = goalData.timebound.endDate || '';
+                document.getElementById('milestones').value = goalData.timebound.milestones || '';
+            }
+            
+            // サマリー表示を更新
+            function updateSummary(goalData) {
+                document.getElementById('summaryTitle').textContent = goalData.title;
+                document.getElementById('summarySpecific').textContent = goalData.specific.goal + (goalData.specific.why ? `（理由：${goalData.specific.why}）` : '');
+                document.getElementById('summaryMeasurable').textContent = `${goalData.measurable.metric}➡️${goalData.measurable.target}`;
+                
+                // Achievable summary
+                let achievableText = '';
+                if (goalData.achievable.currentState) achievableText += `現状：${goalData.achievable.currentState}. 　`;
+                if (goalData.achievable.steps) achievableText += `ステップ：${goalData.achievable.steps}. 　`;
+                if (goalData.achievable.rating) {
+                    const achievabilityLabels = {
+                        'very_easy': 'かなり簡単（快適ゾーン）',
+                        'somewhat_easy': 'やや簡単（快適ゾーン）',
+                        'moderate': '適度な挑戦（ストレッチゾーン）',
+                        'somewhat_difficult': 'やや難しい（ストレッチゾーン）',
+                        'very_difficult': 'かなり難しい（恐怖ゾーン）'
+                    };
+                    achievableText += `🎚️：${achievabilityLabels[goalData.achievable.rating]}`;
+                }
+                document.getElementById('summaryAchievable').textContent = achievableText;
+                
+                // Relevant summary
+                let relevantText = '';
+                if (goalData.relevant.values) relevantText += `価値観：${goalData.relevant.values}.　`;
+                if (goalData.relevant.alignment) relevantText += `整合性：${goalData.relevant.alignment}`;
+                document.getElementById('summaryRelevant').textContent = relevantText;
+                
+                // Time-bound summary
+                let timeboundText = '';
+                if (goalData.timebound.startDate) timeboundText += `開始日：${formatDate(goalData.timebound.startDate)}. 　`;
+                if (goalData.timebound.endDate) timeboundText += `達成期限：${formatDate(goalData.timebound.endDate)}. 　`;
+                if (goalData.timebound.milestones) timeboundText += `マイルストーン：${goalData.timebound.milestones}`;
+                document.getElementById('summaryTimebound').textContent = timeboundText;
+                
+                // Show summary section
+                summarySection.style.display = 'block';
+                
+                // Scroll to summary
+                summarySection.scrollIntoView({ behavior: 'smooth' });
+            }
+            
+            // 目標一覧を更新
+            function updateGoalList() {
+                const goalListContainer = document.getElementById('goalList');
+                const startIndex = (currentPage - 1) * GOALS_PER_PAGE;
+                const endIndex = startIndex + GOALS_PER_PAGE;
+                const currentPageGoals = goals.slice(startIndex, endIndex);
+                
+                if (goals.length === 0) {
+                    goalListContainer.innerHTML = `
+                        <div class="no-goals" style="text-align: center; padding: 20px; color: var(--gray);">
+                            保存された目標はありません。
+                        </div>
+                    `;
+                } else {
+                    goalListContainer.innerHTML = '';
+                    
+                    currentPageGoals.forEach(goal => {
+                        const goalItem = document.createElement('div');
+                        goalItem.className = 'goal-item';
+                        
+                        goalItem.innerHTML = `
+                            <div class="goal-name">${goal.title}</div>
+                            <div class="goal-date">期限: ${formatDate(goal.timebound.endDate)}</div>
+                            <div class="goal-actions">
+                                <button class="goal-btn btn-primary view-goal" data-id="${goal.id}">表示</button>
+                                <button class="goal-btn btn-warning edit-goal" data-id="${goal.id}">編集</button>
+                                <button class="goal-btn btn-danger delete-goal" data-id="${goal.id}">削除</button>
+                            </div>
+                        `;
+                        
+                        goalListContainer.appendChild(goalItem);
+                    });
+                    
+                    // イベントリスナーを追加
+                    document.querySelectorAll('.view-goal').forEach(btn => {
+                        btn.addEventListener('click', viewGoal);
+                    });
+                    
+                    document.querySelectorAll('.edit-goal').forEach(btn => {
+                        btn.addEventListener('click', editGoal);
+                    });
+                    
+                    document.querySelectorAll('.delete-goal').forEach(btn => {
+                        btn.addEventListener('click', deleteGoal);
+                    });
+                }
+                
+                // ページネーションを更新
+                updatePagination();
+            }
+            
+            // ページネーションを更新
+            function updatePagination() {
+                const paginationContainer = document.getElementById('goalPagination');
+                const totalPages = Math.ceil(goals.length / GOALS_PER_PAGE);
+                
+                if (totalPages <= 1) {
+                    paginationContainer.style.display = 'none';
+                    return;
+                }
+                
+                paginationContainer.style.display = 'flex';
+                paginationContainer.innerHTML = '';
+                
+                // 前へボタン
+                if (currentPage > 1) {
+                    const prevBtn = document.createElement('button');
+                    prevBtn.className = 'page-btn';
+                    prevBtn.textContent = '前へ';
+                    prevBtn.addEventListener('click', () => {
+                        currentPage--;
+                        updateGoalList();
+                    });
+                    paginationContainer.appendChild(prevBtn);
+                }
+                
+                // ページ番号ボタン
+                for (let i = 1; i <= totalPages; i++) {
+                    const pageBtn = document.createElement('button');
+                    pageBtn.className = `page-btn ${i === currentPage ? 'active' : ''}`;
+                    pageBtn.textContent = i;
+                    pageBtn.addEventListener('click', () => {
+                        currentPage = i;
+                        updateGoalList();
+                    });
+                    paginationContainer.appendChild(pageBtn);
+                }
+                
+                // 次へボタン
+                if (currentPage < totalPages) {
+                    const nextBtn = document.createElement('button');
+                    nextBtn.className = 'page-btn';
+                    nextBtn.textContent = '次へ';
+                    nextBtn.addEventListener('click', () => {
+                        currentPage++;
+                        updateGoalList();
+                    });
+                    paginationContainer.appendChild(nextBtn);
+                }
+            }
+            
+            // 目標を表示
+            function viewGoal(e) {
+                const goalId = parseInt(e.target.getAttribute('data-id'));
+                const goal = goals.find(g => g.id === goalId);
+                
+                if (goal) {
+                    // モーダルに目標データをセット
+                    document.getElementById('modalTitle').textContent = goal.title;
+                    document.getElementById('modalTitleContent').textContent = goal.title;
+                    document.getElementById('modalSpecific').textContent = goal.specific.goal + (goal.specific.why ? `（理由：${goal.specific.why}）` : '');
+                    document.getElementById('modalMeasurable').textContent = `${goal.measurable.metric}➡️${goal.measurable.target}`;
+                    
+                    // Achievable summary
+                    let achievableText = '';
+                    if (goal.achievable.currentState) achievableText += `現状：${goal.achievable.currentState}. 　`;
+                    if (goal.achievable.steps) achievableText += `ステップ：${goal.achievable.steps}. 　`;
+                    if (goal.achievable.rating) {
+                        const achievabilityLabels = {
+                            'very_easy': 'かなり簡単（快適ゾーン）',
+                            'somewhat_easy': 'やや簡単（快適ゾーン）',
+                            'moderate': '適度な挑戦（ストレッチゾーン）',
+                            'somewhat_difficult': 'やや難しい（ストレッチゾーン）',
+                            'very_difficult': 'かなり難しい（恐怖ゾーン）'
+                        };
+                        achievableText += `🎚️：${achievabilityLabels[goal.achievable.rating]}`;
+                    }
+                    document.getElementById('modalAchievable').textContent = achievableText;
+                    
+                    // Relevant summary
+                    let relevantText = '';
+                    if (goal.relevant.values) relevantText += `価値観：${goal.relevant.values}.　`;
+                    if (goal.relevant.alignment) relevantText += `整合性：${goal.relevant.alignment}`;
+                    document.getElementById('modalRelevant').textContent = relevantText;
+                    
+                    // Time-bound summary
+                    let timeboundText = '';
+                    if (goal.timebound.startDate) timeboundText += `開始日：${formatDate(goal.timebound.startDate)}. 　`;
+                    if (goal.timebound.endDate) timeboundText += `達成期限：${formatDate(goal.timebound.endDate)}. 　`;
+                    if (goal.timebound.milestones) timeboundText += `マイルストーン：${goal.timebound.milestones}`;
+                    document.getElementById('modalTimebound').textContent = timeboundText;
+                    
+                    // モーダルを表示
+                    document.getElementById('goalDetailModal').style.display = 'block';
+                    
+                    // 編集ボタンにイベントリスナーを追加
+                    document.getElementById('editGoalBtn').setAttribute('data-id', goalId);
+                    document.getElementById('editGoalBtn').addEventListener('click', function() {
+                        const id = parseInt(this.getAttribute('data-id'));
+                        document.getElementById('goalDetailModal').style.display = 'none';
+                        editGoal({ target: { getAttribute: () => id } });
+                    });
+                    
+                    // 印刷ボタンにイベントリスナーを追加
+                    document.getElementById('printModalBtn').addEventListener('click', function() {
+                        window.print();
+                    });
+                }
+            }
+            
+            // 目標を編集
+            function editGoal(e) {
+                const goalId = parseInt(e.target.getAttribute('data-id'));
+                const goal = goals.find(g => g.id === goalId);
+                
+                if (goal) {
+                    // 目標データをフォームにセット
+                    currentGoalId = goalId;
+                    setGoalDataToForm(goal);
+                    
+                    // タブを切り替え
+                    switchTab('form-tab');
+                    
+                    // サマリーを表示
+                    updateSummary(goal);
+                }
+            }
+            
+            // 目標を削除
+            function deleteGoal(e) {
+                if (confirm('この目標を削除してもよろしいですか？')) {
+                    const goalId = parseInt(e.target.getAttribute('data-id'));
+                    goals = goals.filter(g => g.id !== goalId);
+                    saveGoals();
+                    
+                    // 削除アラートを表示
+                    deleteAlert.style.display = 'block';
+                    setTimeout(() => {
+                        deleteAlert.style.display = 'none';
+                    }, 3000);
+                    
+                    // ページネーションを調整
+                    const totalPages = Math.ceil(goals.length / GOALS_PER_PAGE);
+                    if (currentPage > totalPages && totalPages > 0) {
+                        currentPage = totalPages;
+                    }
+                    
+                    updateGoalList();
+                }
+            }
+            
+            // タブ切り替え
+            function switchTab(tabId) {
+                tabBtns.forEach(btn => {
+                    if (btn.getAttribute('data-tab') === tabId) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                });
+                
+                tabContents.forEach(content => {
+                    if (content.id === tabId) {
+                        content.classList.add('active');
+                    } else {
+                        content.classList.remove('active');
+                    }
+                });
+            }
+            
+            // フォームをバリデーション
+            function validateForm() {
+                const goalTitle = document.getElementById('goalTitle').value;
+                const specificGoal = document.getElementById('specificGoal').value;
+                const measurableMetric = document.getElementById('measurableMetric').value;
+                const measurableTarget = document.getElementById('measurableTarget').value;
+                const endDate = document.getElementById('endDate').value;
+                
+                if (!goalTitle) {
+                    alert('目標のタイトルを入力してください。');
+                    return false;
+                }
+                
+                if (!specificGoal) {
+                    alert('「Specific（具体的）」セクションで具体的な目標を入力してください。');
+                    return false;
+                }
+                
+                if (!measurableMetric || !measurableTarget) {
+                    alert('「Measurable（測定可能）」セクションで測定方法と目標値を入力してください。');
+                    return false;
+                }
+                
+                if (!endDate) {
+                    alert('「Time-bound（期限付き）」セクションで目標達成期限を入力してください。');
+                    return false;
+                }
+                
+                return true;
+            }
+            
+            // SMART目標を生成
+            generateBtn.addEventListener('click', function() {
+                if (!validateForm()) return;
+                
+                const goalData = getGoalDataFromForm();
+                updateSummary(goalData);
+            });
+            
+            // 目標を保存
+            saveGoalBtn.addEventListener('click', function() {
+                if (!validateForm()) return;
+                
+                const goalData = getGoalDataFromForm();
+                
+                // 編集中の目標が存在する場合は更新
+                if (currentGoalId) {
+                    const index = goals.findIndex(g => g.id === currentGoalId);
+                    if (index !== -1) {
+                        goals[index] = goalData;
+                    }
+                } else {
+                    // 新規目標の場合は追加
+                    if (goals.length >= MAX_GOALS) {
+                        alert(`目標は最大${MAX_GOALS}個までしか保存できません。不要な目標を削除してください。`);
+                        return;
+                    }
+                    goals.push(goalData);
+                }
+                
+                // 目標を保存
+                saveGoals();
+                
+                // フォームをリセット
+                form.reset();
+                currentGoalId = null;
+                summarySection.style.display = 'none';
+                
+                // 保存アラートを表示
+                saveAlert.style.display = 'block';
+                setTimeout(() => {
+                    saveAlert.style.display = 'none';
+                }, 3000);
+                
+                // 保存済み目標タブに切り替え
+                switchTab('saved-tab');
+                updateGoalList();
+            });
+            
+            // フォームリセット
+            resetBtn.addEventListener('click', function() {
+                form.reset();
+                currentGoalId = null;
+                summarySection.style.display = 'none';
+            });
+            
+            // 印刷機能
+            printBtn.addEventListener('click', function() {
+                window.print();
+            });
+            
+            // モーダルを閉じる
+            document.getElementById('closeModal').addEventListener('click', function() {
+                document.getElementById('goalDetailModal').style.display = 'none';
+            });
+            
+            // タブ切り替えイベント
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    switchTab(tabId);
+                });
+            });
+            
+            // 初期化
+            loadGoals();
+            
+            // モーダル外クリックで閉じる
+            window.addEventListener('click', function(e) {
+                const modal = document.getElementById('goalDetailModal');
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

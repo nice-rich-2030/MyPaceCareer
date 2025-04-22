@@ -1,4 +1,4 @@
-# Self-Paced Career Development Toolkit
+# My Pace Career Development Toolkit
 
 ## 概要
 
